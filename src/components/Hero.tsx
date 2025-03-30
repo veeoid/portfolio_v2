@@ -1,15 +1,40 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hovered, setHovered] = useState<"left" | "right" | "none">("none");
+  const [activeImage, setActiveImage] = useState<"left" | "right" | "none">("none");
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 300);
+    const timer = setTimeout(() => setIsLoaded(true), 300);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+
+    const bounds = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - bounds.left;
+    const width = bounds.width;
+    const center = width / 2;
+    const threshold = width * 0.15;
+
+    if (x <= center - threshold) {
+      setActiveImage("left");
+    } else if (x >= center + threshold) {
+      setActiveImage("right");
+    } else {
+      setActiveImage("none");
+    }
+  };
+
+  const getTextTransition = (side: "left" | "right") => {
+    return `absolute inset-0 flex flex-col justify-center px-10 text-white transition-all duration-700 ease-in-out transform ${
+      activeImage === side || activeImage === "none"
+        ? "opacity-100 scale-100"
+        : "opacity-30 scale-[0.98]"
+    }`;
+  };
 
   return (
     <section
@@ -18,21 +43,16 @@ export default function Hero() {
     >
       {/* Desktop View */}
       <div
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setActiveImage("none")}
         className={`relative z-10 hidden w-full items-center justify-center transition-all duration-1000 md:flex md:flex-row ${
           isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
         }`}
-        onMouseLeave={() => setHovered("none")}
       >
         {/* Designer Side */}
-        <div
-          onMouseEnter={() => setHovered("left")}
-          className="relative z-10 h-[700px] w-1/2 cursor-pointer"
-        >
-          <div
-            className={`absolute inset-0 flex flex-col items-start justify-center px-10 text-white transition-opacity duration-500 ${
-              hovered === "left" || hovered === "none" ? "opacity-100" : "opacity-30"
-            } bg-transparent`}
-          >
+        <div className="relative z-10 h-[700px] w-1/2">
+          <div className={getTextTransition("left") + " items-start"}>
             <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">Vismay Chaudhari</h1>
             <div className="mt-10 space-y-6">
               <p className="max-w-sm text-base">
@@ -49,16 +69,9 @@ export default function Hero() {
         </div>
 
         {/* Coder Side */}
-        <div
-          onMouseEnter={() => setHovered("right")}
-          className="relative z-10 h-[700px] w-1/2 cursor-pointer"
-        >
-          <div
-            className={`absolute inset-0 flex flex-col items-end justify-center px-10 text-right text-white transition-opacity duration-500 ${
-              hovered === "right" ? "opacity-100" : "opacity-30"
-            } bg-transparent`}
-          >
-            <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">&lt;Coder/&gt;</h1>
+        <div className="relative z-10 h-[700px] w-1/2">
+          <div className={getTextTransition("right") + " items-end text-right"}>
+            <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">&lt;Software Engineer/&gt;</h1>
             <p className="max-w-md text-lg">
               Whether it’s fixing something that’s broken or building something that’s missing, I
               like writing code that actually helps someone.
@@ -69,18 +82,25 @@ export default function Hero() {
         {/* Full Image */}
         <div className="absolute left-0 top-0 h-[700px] w-full overflow-hidden">
           <img
+            src="/center.png"
+            alt="Vismay Chaudhari Center"
+            className={`absolute h-full w-full object-contain transition-all duration-700 ease-in-out ${
+              activeImage === "none" ? "scale-100 opacity-100" : "scale-105 opacity-0"
+            }`}
+          />
+          <img
             src="/regular.png"
             alt="Vismay Chaudhari"
-            className={`absolute h-full w-full object-contain transition-opacity duration-500 ${
-              hovered === "none" || hovered === "left" ? "opacity-100" : "opacity-0"
-            } bg-black`}
+            className={`absolute h-full w-full object-contain transition-all duration-700 ease-in-out ${
+              activeImage === "left" ? "scale-100 opacity-100" : "scale-105 opacity-0"
+            }`}
           />
           <img
             src="/animated.png"
             alt="Vismay Chaudhari Animated"
-            className={`absolute h-full w-full object-contain transition-opacity duration-500 ${
-              hovered === "right" ? "opacity-100" : "opacity-0"
-            } bg-black`}
+            className={`absolute h-full w-full object-contain transition-all duration-700 ease-in-out ${
+              activeImage === "right" ? "scale-100 opacity-100" : "scale-105 opacity-0"
+            }`}
           />
         </div>
       </div>
@@ -100,7 +120,7 @@ export default function Hero() {
           <img src="/regular.png" alt="Vismay Chaudhari" className="w-full object-contain" />
         </div>
         <div className="text-center">
-          <h1 className="mb-2 text-2xl font-bold text-[#6cccb4]">&lt;Coder/&gt;</h1>
+          <h1 className="mb-2 text-2xl font-bold text-[#6cccb4]">&lt;Software Engineer/&gt;</h1>
           <p className="text-sm text-white">
             Whether it’s fixing something that’s broken or building something that’s missing, I like
             writing code that actually helps someone.
@@ -109,7 +129,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator (Desktop Only) */}
-      <div className="pointer-events-none absolute bottom-8 left-[48.2%] z-20 hidden -translate-x-[50%] transform animate-bounce flex-col items-center opacity-70 transition-opacity hover:opacity-100 md:flex">
+      <div className="pointer-events-none absolute bottom-8 left-[48.2%] z-20 hidden -translate-x-1/2 transform animate-bounce flex-col items-center opacity-70 transition-opacity hover:opacity-100 md:flex">
         <p className="mb-2 text-sm text-[#6cccb4]">Scroll Down</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
