@@ -43,6 +43,18 @@ section {
 .content {
   min-height: 100vh;
 }
+/* index.css additions */
+.hero-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(to right, #0f0f0f 80%, transparent);
+  z-index: 1;
+}
+
 
 /* Hero section */
 .hero-bg-left {
