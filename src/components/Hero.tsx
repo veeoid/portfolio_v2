@@ -109,7 +109,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator (Desktop Only) */}
-      <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform animate-bounce cursor-pointer flex-col items-center opacity-70 transition-opacity hover:opacity-100 md:flex">
+      <div className="pointer-events-none absolute bottom-8 left-[48.2%] z-20 hidden -translate-x-[50%] transform animate-bounce flex-col items-center opacity-70 transition-opacity hover:opacity-100 md:flex">
         <p className="mb-2 text-sm text-[#6cccb4]">Scroll Down</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"

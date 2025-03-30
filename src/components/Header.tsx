@@ -109,7 +109,7 @@ export default function Header() {
           </a>
           <div className="h-5 w-[1px] bg-gray-700"></div>
           <a
-            href="/user-components/resume.pdf"
+            href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-md border border-gray-700 px-4 py-1.5 text-sm font-medium text-gray-300 transition-colors duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:border-[#6cccb4] hover:text-[#6cccb4]"
