@@ -21,9 +21,9 @@ export default function App() {
       <div id="content" className="content">
         <Hero />
         <div>
+          <Timeline />
           <Projects />
           <Skills />
-          <Timeline />
           <Publications />
           <Contact />
         </div>

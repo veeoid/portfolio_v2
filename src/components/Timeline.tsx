@@ -72,10 +72,14 @@ export default function Timeline() {
     return (
       <div
         key={event.id}
-        className="group mb-10 ml-6 cursor-pointer"
+        className="group relative mb-10 cursor-pointer rounded-2xl border border-[#3fc8a7]/10 bg-[#1a1a1a] p-6 pl-10 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg hover:ring-2 hover:ring-[#3fc8a7]/30 hover:ring-offset-2"
         onClick={() => toggleExpand(event.id)}
       >
-        <div className="absolute -left-2 top-1 h-4 w-4 rounded-full bg-[#3fc8a7]"></div>
+        <div
+          className={`absolute left-2 top-6 h-4 w-4 rounded-full ${
+            expandedId === event.id ? "animate-pulse bg-[#3fc8a7]" : "bg-[#3fc8a7]"
+          }`}
+        ></div>
         <div className="flex items-center justify-between">
           <h4 className="text-lg font-bold text-white">{event.title}</h4>
           <span className="text-lg text-white">{expandedId === event.id ? "−" : "+"}</span>
@@ -113,14 +117,16 @@ export default function Timeline() {
         <div className="grid gap-12 md:grid-cols-2">
           <div>
             <h3 className="mb-6 text-2xl font-semibold text-[#3fc8a7]">🎓 Education</h3>
-            <div className="relative ml-4 border-l-4 border-[#3fc8a7]">
+            <div className="relative">
+              <div className="absolute bottom-0 left-4 top-0 w-1 rounded-full bg-gradient-to-b from-[#3fc8a7] to-[#17796d]"></div>
               {educationEvents.map(renderEvent)}
             </div>
           </div>
 
           <div>
             <h3 className="mb-6 text-2xl font-semibold text-[#3fc8a7]">💼 Experience</h3>
-            <div className="relative ml-4 border-l-4 border-[#3fc8a7]">
+            <div className="relative">
+              <div className="absolute bottom-0 left-4 top-0 w-1 rounded-full bg-gradient-to-b from-[#3fc8a7] to-[#17796d]"></div>
               {experienceEvents.map(renderEvent)}
             </div>
           </div>
