@@ -134,7 +134,6 @@ export default function Projects() {
 
   return (
     <section id="projects" className="relative bg-black py-20 text-white">
-      {/* Background elements */}
       <div className="absolute left-0 top-0 z-0 h-full w-full overflow-hidden opacity-5">
         <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-[#6cccb4] blur-3xl filter"></div>
         <div className="absolute -right-20 top-60 h-60 w-60 rounded-full bg-[#cdaa57] blur-3xl filter"></div>
@@ -142,7 +141,9 @@ export default function Projects() {
       </div>
 
       <div
-        className={`container relative z-10 mx-auto px-6 transition-all duration-1000 md:px-8 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+        className={`container relative z-10 mx-auto px-6 transition-all duration-1000 md:px-8 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+        }`}
       >
         <div className="mb-16 text-center">
           <h2 className="relative inline-flex flex-col text-4xl font-bold">
@@ -171,70 +172,88 @@ export default function Projects() {
           </button>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => (
-            <a
-              key={project.id}
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex h-full transform flex-col overflow-hidden rounded-xl border border-[#222] bg-gradient-to-br from-[#111] to-[#191919] transition-all duration-500 hover:-translate-y-1 hover:border-[#444] hover:shadow-xl hover:shadow-[#6cccb4]/10"
-            >
-              <div className="relative h-48 w-full overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#222] to-[#111] transition-opacity group-hover:opacity-90">
-                  <span className="text-5xl opacity-20">
-                    {project.category === "web" && "🌐"}
-                    {project.category === "ai" && "🤖"}
-                    {project.category === "backend" && "⚙️"}
-                  </span>
-                </div>
-                <div className="absolute right-3 top-3 rounded bg-black/70 px-3 py-1 text-xs font-medium backdrop-blur-sm">
-                  {project.category === "web" && "Web Development"}
-                  {project.category === "ai" && "AI & ML"}
-                  {project.category === "backend" && "Backend & Data"}
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="transform rounded-full border-2 border-[#6cccb4] px-4 py-2 text-sm font-medium text-[#6cccb4] transition-transform duration-300 group-hover:scale-105">
-                    View Project
-                  </div>
-                </div>
-              </div>
+        {/* Projects Grid with centered last row if needed */}
+        <div className="flex flex-col gap-8">
+          {Array.from({ length: Math.ceil(filteredProjects.length / 3) }).map((_, rowIndex) => {
+            const start = rowIndex * 3;
+            const rowItems = filteredProjects.slice(start, start + 3);
+            const isLastRow = rowIndex === Math.floor((filteredProjects.length - 1) / 3);
+            const justifyClass =
+              isLastRow && rowItems.length < 3 ? "justify-center" : "justify-start";
 
-              <div className="flex flex-grow flex-col p-6">
-                <h3 className="mb-3 text-xl font-bold text-white transition-colors group-hover:text-[#6cccb4]">
-                  {project.title}
-                </h3>
-                <p className="mb-6 flex-grow text-sm text-gray-400">{project.description}</p>
-                <div className="mt-auto flex flex-wrap gap-2">
-                  {(showAllTech[project.id]
-                    ? project.technologies
-                    : project.technologies.slice(0, 6)
-                  ).map((tech, index) => (
-                    <span
-                      key={index}
-                      className="rounded-full border border-[#333] bg-black/80 px-2 py-1 text-xs text-gray-300"
+            return (
+              <div key={rowIndex} className={`flex flex-wrap gap-8 ${justifyClass}`}>
+                {rowItems.map((project) => (
+                  <div key={project.id} className="w-full md:w-[48%] lg:w-[31%]">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex h-full flex-col overflow-hidden rounded-xl border border-[#222] bg-gradient-to-br from-[#111] to-[#191919] transition-all duration-500 hover:-translate-y-1 hover:border-[#444] hover:shadow-xl hover:shadow-[#6cccb4]/10"
                     >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 6 && (
-                    <button
-                      className="text-xs text-gray-400 underline transition hover:text-[#6cccb4]"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowAllTech((prev) => ({ ...prev, [project.id]: !prev[project.id] }));
-                      }}
-                    >
-                      {showAllTech[project.id]
-                        ? "Show less"
-                        : `+${project.technologies.length - 6} more`}
-                    </button>
-                  )}
-                </div>
+                      <div className="relative h-48 w-full overflow-hidden">
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#222] to-[#111] transition-opacity group-hover:opacity-90">
+                          <span className="text-5xl opacity-20">
+                            {project.category === "web" && "🌐"}
+                            {project.category === "ai" && "🤖"}
+                            {project.category === "backend" && "⚙️"}
+                          </span>
+                        </div>
+                        <div className="absolute right-3 top-3 rounded bg-black/70 px-3 py-1 text-xs font-medium backdrop-blur-sm">
+                          {project.category === "web" && "Web Development"}
+                          {project.category === "ai" && "AI & ML"}
+                          {project.category === "backend" && "Backend & Data"}
+                        </div>
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <div className="transform rounded-full border-2 border-[#6cccb4] px-4 py-2 text-sm font-medium text-[#6cccb4] transition-transform duration-300 group-hover:scale-105">
+                            View Project
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-grow flex-col p-6">
+                        <h3 className="mb-3 text-xl font-bold text-white transition-colors group-hover:text-[#6cccb4]">
+                          {project.title}
+                        </h3>
+                        <p className="mb-6 flex-grow text-sm text-gray-400">
+                          {project.description}
+                        </p>
+                        <div className="mt-auto flex flex-wrap gap-2">
+                          {(showAllTech[project.id]
+                            ? project.technologies
+                            : project.technologies.slice(0, 6)
+                          ).map((tech, index) => (
+                            <span
+                              key={index}
+                              className="rounded-full border border-[#333] bg-black/80 px-2 py-1 text-xs text-gray-300"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.technologies.length > 6 && (
+                            <button
+                              className="text-xs text-gray-400 underline transition hover:text-[#6cccb4]"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setShowAllTech((prev) => ({
+                                  ...prev,
+                                  [project.id]: !prev[project.id],
+                                }));
+                              }}
+                            >
+                              {showAllTech[project.id]
+                                ? "Show less"
+                                : `+${project.technologies.length - 6} more`}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                ))}
               </div>
-            </a>
-          ))}
+            );
+          })}
         </div>
 
         {/* GitHub CTA */}

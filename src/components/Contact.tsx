@@ -1,4 +1,5 @@
 import { useState, useEffect, FormEvent } from "react";
+import emailjs from "emailjs-com";
 
 export default function Contact() {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,9 +22,7 @@ export default function Contact() {
     if (section) observer.observe(section);
 
     return () => {
-      if (section) {
-        observer.unobserve(section);
-      }
+      if (section) observer.unobserve(section);
     };
   }, []);
 
@@ -35,18 +34,37 @@ export default function Contact() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 1500);
+
+    emailjs
+      .send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID!,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY!,
+      )
+      .then(() => {
+        setIsSubmitting(false);
+        setSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setSubmitted(false), 5000);
+      })
+      .catch((error) => {
+        setIsSubmitting(false);
+        console.error("Email sending failed:", error);
+        alert("Something went wrong. Please try again later.");
+      });
   };
 
   return (
     <section id="contact" className="bg-[#0f0f0f] py-24 text-white">
       <div
-        className={`container mx-auto px-4 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+        className={`container mx-auto px-4 transition-all duration-1000 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+        }`}
       >
         {/* Title */}
         <div className="mb-20 text-center">
@@ -70,7 +88,6 @@ export default function Contact() {
             </div>
 
             <div className="space-y-6">
-              {/* Email */}
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-gradient-to-br from-[#6cccb4] to-[#cdaa57] p-2">
                   <svg
@@ -91,7 +108,6 @@ export default function Contact() {
                 </a>
               </div>
 
-              {/* Location */}
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-gradient-to-br from-[#6cccb4] to-[#cdaa57] p-2">
                   <svg
@@ -115,7 +131,6 @@ export default function Contact() {
                 <span className="text-gray-300">Seattle, WA</span>
               </div>
 
-              {/* Social Icons */}
               <div className="flex space-x-5 pt-2">
                 <a
                   href="https://github.com/veeoid"
