@@ -42,10 +42,10 @@ export default function Header() {
             </li>
             <li>
               <a
-                href="#skills"
+                href="#timeline"
                 className="group relative text-base font-medium text-white transition-colors hover:text-[#6cccb4]"
               >
-                Skills
+                Experience
                 <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-[#6cccb4] transition-all duration-300 group-hover:w-full"></span>
               </a>
             </li>
@@ -55,6 +55,15 @@ export default function Header() {
                 className="group relative text-base font-medium text-white transition-colors hover:text-[#6cccb4]"
               >
                 Projects
+                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-[#6cccb4] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#skills"
+                className="group relative text-base font-medium text-white transition-colors hover:text-[#6cccb4]"
+              >
+                Skills
                 <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-[#6cccb4] transition-all duration-300 group-hover:w-full"></span>
               </a>
             </li>
