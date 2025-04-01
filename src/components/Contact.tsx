@@ -25,11 +25,11 @@ export default function Contact() {
       if (section) observer.unobserve(section);
     };
   }, []);
-  useEffect(() => {
-    console.log("🛠️ VITE_EMAILJS_SERVICE_ID (prod):", import.meta.env.VITE_EMAILJS_SERVICE_ID);
-    console.log("🛠️ VITE_EMAILJS_TEMPLATE_ID (prod):", import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
-    console.log("🛠️ VITE_EMAILJS_PUBLIC_KEY (prod):", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-  }, []);
+  // useEffect(() => {
+  //   console.log("🛠️ VITE_EMAILJS_SERVICE_ID (prod):", import.meta.env.VITE_EMAILJS_SERVICE_ID);
+  //   console.log("🛠️ VITE_EMAILJS_TEMPLATE_ID (prod):", import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
+  //   console.log("🛠️ VITE_EMAILJS_PUBLIC_KEY (prod):", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  // }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
