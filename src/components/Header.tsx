@@ -238,7 +238,7 @@ export default function Header() {
               </svg>
             </a>
             <a
-              href="/user-components/resume.pdf"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-md border border-gray-700 px-4 py-1.5 text-sm font-medium text-gray-300 transition-colors hover:border-[#6cccb4] hover:text-[#6cccb4]"
