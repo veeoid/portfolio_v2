@@ -107,6 +107,17 @@ export default function Projects() {
     },
     {
       id: 8,
+      title: "FlickFinder - Search & Save Movies using TMDB API",
+      category: "web",
+      description:
+        "A responsive React-based movie exploration app powered by TMDB API, allowing users to search movies, browse trending films, and save their favorites locally.",
+      link: "https://github.com/veeoid/movie-app",
+      technologies: ["React", "Vite", "TMDB API", "JavaScript", "Context API", "CSS"],
+      image: "/images/project-flickfinder.jpg",
+    },
+
+    {
+      id: 9,
       title: "Instagram Trend Analysis",
       category: "backend",
       description:
