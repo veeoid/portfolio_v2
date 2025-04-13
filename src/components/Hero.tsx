@@ -80,7 +80,7 @@ export default function Hero() {
         </div>
 
         {/* Full Image */}
-        <div className="absolute left-0 top-0 h-[700px] w-full overflow-hidden">
+        <div className="absolute left-0 top-0 h-[650px] w-full overflow-hidden">
           <img
             src="/center.png"
             alt="Vismay Chaudhari Center"

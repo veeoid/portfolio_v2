@@ -101,7 +101,7 @@ export default function Publications() {
               className="group relative overflow-hidden rounded-xl border border-[#222] bg-gradient-to-b from-[#111] to-[#0a0a0a] transition-all duration-300 hover:border-[#6cccb4]/30 hover:shadow-lg hover:shadow-[#6cccb4]/5"
             >
               {/* Publication year badge */}
-              <div className="absolute right-6 top-6 rounded-full border border-[#333] bg-black/70 px-3 py-1 text-sm font-medium backdrop-blur-sm">
+              <div className="absolute right-1 top-2 rounded-full border border-[#333] bg-black/70 px-3 py-1 text-sm font-medium backdrop-blur-sm">
                 {publication.year}
               </div>
 
