@@ -43,7 +43,7 @@ export default function Projects() {
         "Chrome extension designed to enhance LeetCode problem-solving with instant AI-driven support and structured explanations.",
       link: "https://github.com/veeoid/Code-Cue",
       technologies: ["React", "TypeScript", "Node.js", "Express", "Groq API", "Chrome Extension"],
-      image: "/images/project-codecue.jpg",
+      image: "/project-images/project-codecude.png",
     },
     {
       id: 2,
