@@ -1,8 +1,20 @@
-# Vismay Chaudhari — Portfolio Website 🚀
+# Portfolio Website 🚀
 
 This repository contains the source code of my personal portfolio website built using modern frontend technologies like React, TypeScript, Vite, and Tailwind CSS.
 
 ---
+
+## Hero Page
+
+<p align="center">
+  <img src="public/repo-images/hero-section.png" width="600">
+</p>
+
+## Projects Page
+
+<p align="center">
+  <img src="public/repo-images/projects-section.png" width="600">
+</p>
 
 ## Why I Built This
 
