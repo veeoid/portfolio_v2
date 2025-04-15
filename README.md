@@ -57,7 +57,7 @@ src/
 ## How To Run Locally
 
 ```bash
-git clone https://github.com/veeoid/portfolio-redesign.git
+git clone https://github.com/veeoid/portfolio_v2.git
 cd portfolio-redesign
 npm install
 npm run dev
@@ -68,7 +68,7 @@ npm run dev
 ## Deployment
 
 This portfolio website is deployed on:  
-🔗 [https://your-portfolio-vercel-link.vercel.app](https://your-portfolio-vercel-link.vercel.app)
+🔗 [https://portfolio-ca88.vercel.app/](https://portfolio-ca88.vercel.app/)
 
 ---
 
