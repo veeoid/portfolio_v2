@@ -2,12 +2,20 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeImage, setActiveImage] = useState<"left" | "right" | "none">("none");
+  const [activeImage, setActiveImage] = useState<"regular" | "animated">("regular");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 300);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveImage((prev) => (prev === "regular" ? "animated" : "regular"));
+    }, 3000); // Switch every 3 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -17,22 +25,17 @@ export default function Hero() {
     const x = e.clientX - bounds.left;
     const width = bounds.width;
     const center = width / 2;
-    const threshold = width * 0.15;
 
-    if (x <= center - threshold) {
-      setActiveImage("left");
-    } else if (x >= center + threshold) {
-      setActiveImage("right");
+    if (x <= center) {
+      setActiveImage("regular");
     } else {
-      setActiveImage("none");
+      setActiveImage("animated");
     }
   };
 
-  const getTextTransition = (side: "left" | "right") => {
+  const getTextTransition = (side: "regular" | "animated") => {
     return `absolute inset-0 flex flex-col justify-center px-10 text-white transition-all duration-700 ease-in-out transform ${
-      activeImage === side || activeImage === "none"
-        ? "opacity-100 scale-100"
-        : "opacity-30 scale-[0.98]"
+      activeImage === side ? "opacity-100 scale-100" : "opacity-30 scale-[0.98]"
     }`;
   };
 
@@ -45,14 +48,14 @@ export default function Hero() {
       <div
         ref={containerRef}
         onMouseMove={handleMouseMove}
-        onMouseLeave={() => setActiveImage("none")}
+        onMouseLeave={() => {}}
         className={`relative z-10 hidden w-full items-center justify-center transition-all duration-1000 md:flex md:flex-row ${
           isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
         }`}
       >
         {/* Designer Side */}
         <div className="relative z-10 h-[700px] w-1/2">
-          <div className={getTextTransition("left") + " items-start"}>
+          <div className={getTextTransition("regular") + " items-start"}>
             <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">Vismay Chaudhari</h1>
             <div className="mt-10 space-y-6">
               <p className="max-w-sm text-base">
@@ -70,7 +73,7 @@ export default function Hero() {
 
         {/* Coder Side */}
         <div className="relative z-10 h-[700px] w-1/2">
-          <div className={getTextTransition("right") + " items-end text-right"}>
+          <div className={getTextTransition("animated") + " items-end text-right"}>
             <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">&lt;Software Engineer/&gt;</h1>
             <p className="max-w-md text-lg">
               Whether it’s fixing something that’s broken or building something that’s missing, I
@@ -82,24 +85,17 @@ export default function Hero() {
         {/* Full Image */}
         <div className="absolute left-0 top-0 h-[650px] w-full overflow-hidden">
           <img
-            src="/center.png"
-            alt="Vismay Chaudhari Center"
-            className={`absolute h-full w-full object-contain transition-all duration-700 ease-in-out ${
-              activeImage === "none" ? "scale-100 opacity-100" : "scale-105 opacity-0"
-            }`}
-          />
-          <img
             src="/regular.png"
             alt="Vismay Chaudhari"
             className={`absolute h-full w-full object-contain transition-all duration-700 ease-in-out ${
-              activeImage === "left" ? "scale-100 opacity-100" : "scale-105 opacity-0"
+              activeImage === "regular" ? "scale-100 opacity-100" : "scale-105 opacity-0"
             }`}
           />
           <img
             src="/animated.png"
             alt="Vismay Chaudhari Animated"
             className={`absolute h-full w-full object-contain transition-all duration-700 ease-in-out ${
-              activeImage === "right" ? "scale-100 opacity-100" : "scale-105 opacity-0"
+              activeImage === "animated" ? "scale-100 opacity-100" : "scale-105 opacity-0"
             }`}
           />
         </div>

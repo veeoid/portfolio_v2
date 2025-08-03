@@ -33,12 +33,12 @@ const timelineEvents: TimelineEvent[] = [
     title: "Software Engineer: Co-op",
     date: "Ecolab\nAug 2024 - Present",
     description:
-      "Automated data ingestion pipelines using Pandas, PySpark, and Snowflake to clean, validate, and load business-critical data from Azure Blob Storage for internal analytics and customer dashboards.\nDeveloped backend REST APIs using .NET and built responsive frontend interfaces using Angular for a product value application used by internal teams and customers.\nIntegrated itemset mining and SVD-based recommendation models to generate personalized product suggestions based on customer usage patterns.\nCollaborated cross-functionally in Agile sprints, contributing to both data engineering and full-stack development initiatives.",
+      "Engineered PySpark ETL pipelines processing 50M+ daily Snowflake records across 170+ countries, reducing manual reporting time by 40\%.\nImplemented Great Expectations data quality framework with 25+ validation rules for global product data, achieving 99.7\% data accuracy across production systems.\nImplemented AppDynamics monitoring integration for pipeline health checks, enabling proactive notification system for 15+ production data workflows.\n Automated Snowflake ingestion workflows using Azure DevOps CI/CD with parameterized templates, improving deployment consistency by 85\% across environments.\nRevived hybrid recommendation engine using Apriori, K-means, and SVD algorithms for SKU optimization, increasing cross-sell opportunities across customer segments.\nCreated production-grade C\# (.NET) APIs to serve usage and performance metrics for 2M+ customers, powering Angular dashboards used by sales and service teams.",
     category: "experience",
   },
   {
     id: 4,
-    title: "Assistant System Engineer",
+    title: "Software Engineer",
     date: "Tata Consultancy Services\nOct 2020 - Jul 2022",
     description:
       "Developed backend APIs in .NET to capture trade details and transmit them to downstream systems via ActiveMQ, replacing legacy TIBCO-based messaging in a capital markets project.\nAutomated backend validation workflows using VBScript and UFT, enabling compliance checks on trade data without manual intervention.\nQueried and analyzed large volumes of transactional data using SQL Server for debugging, reporting, and ensuring data accuracy.\nGained hands-on experience working with trade processing systems handling sensitive financial data, collaborating closely with developers, testers, and business analysts in Agile teams.",
