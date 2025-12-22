@@ -59,13 +59,10 @@ export default function Hero() {
             <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">Vismay Chaudhari</h1>
             <div className="mt-10 space-y-6">
               <p className="max-w-sm text-base">
-                Hey, I'm Vismay. I've always been the kind of person who wants to understand how
-                things work. From breaking apart gadgets as a kid to debugging messy code in
-                college.
+                Hey, I’m Vismay. I build backend and data-driven systems, and I care about understanding problems end to end before writing code.
               </p>
               <p className="max-w-sm text-base">
-                That curiosity led me to a career in software development, where I get to build
-                things, solve problems, and constantly learn.
+                I’ve worked on production data pipelines, recommendation systems, and cloud infrastructure, focusing on reliability and clarity.
               </p>
             </div>
           </div>
@@ -76,8 +73,7 @@ export default function Hero() {
           <div className={getTextTransition("animated") + " items-end text-right"}>
             <h1 className="mb-4 text-5xl font-bold text-[#6cccb4]">&lt;Software Engineer/&gt;</h1>
             <p className="max-w-md text-lg">
-              Whether it’s fixing something that’s broken or building something that’s missing, I
-              like writing code that actually helps someone.
+              I like writing code that fixes what’s broken or builds what’s missing, and actually helps someone.
             </p>
           </div>
         </div>
@@ -105,12 +101,7 @@ export default function Hero() {
       <div className="flex w-full flex-col items-center justify-center gap-8 px-6 md:hidden">
         <h1 className="text-center text-3xl font-bold text-[#6cccb4]">Vismay Chaudhari</h1>
         <p className="text-center text-sm text-white">
-          Hey, I'm Vismay. I've always been the kind of person who wants to understand how things
-          work. From breaking apart gadgets as a kid to debugging messy code in college.
-        </p>
-        <p className="text-center text-sm text-white">
-          That curiosity led me to a career in software development, where I get to build things,
-          solve problems, and constantly learn.
+          Hey, I’m Vismay. I build backend and data-driven systems, and I care about understanding problems end to end before writing code. I’ve worked on production data pipelines, recommendation systems, and cloud infrastructure, focusing on reliability and clarity.
         </p>
         <div className="w-full max-w-sm">
           <img src="/regular.png" alt="Vismay Chaudhari" className="w-full object-contain" />
@@ -118,8 +109,7 @@ export default function Hero() {
         <div className="text-center">
           <h1 className="mb-2 text-2xl font-bold text-[#6cccb4]">&lt;Software Engineer/&gt;</h1>
           <p className="text-sm text-white">
-            Whether it’s fixing something that’s broken or building something that’s missing, I like
-            writing code that actually helps someone.
+            I like writing code that fixes what’s broken or builds what’s missing, and actually helps someone.
           </p>
         </div>
       </div>

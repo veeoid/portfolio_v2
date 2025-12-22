@@ -181,7 +181,7 @@ export default function Publications() {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {[
-              "Large Language Models",
+              "Hallucination in Large Language Models",
               "Computer Vision",
               "Retrieval-Augmented Generation",
               "AI for Developer Tools",

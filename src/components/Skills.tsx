@@ -337,7 +337,7 @@ export default function Skills() {
             I'm passionate about staying current with emerging technologies. Currently exploring:
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {["Web3 Technologies", "ThreeJS", "Kotlin", "Generative AI", "Computer Vision"].map(
+            {["Web3 Technologies", "ThreeJS", "Generative AI"].map(
               (skill, index) => (
                 <span
                   key={index}

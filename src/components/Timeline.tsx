@@ -13,7 +13,7 @@ const timelineEvents: TimelineEvent[] = [
   {
     id: 1,
     title: "MS in Computer Science",
-    date: "Rochester Institute of Technology\nExpected Graduation: Aug 2025",
+    date: "Rochester Institute of Technology\n Aug 2022 - Dec 2025",
     description:
       "Related Coursework: Data Structures & Algorithms, Artificial Intelligence, Machine Learning, Big Data Analytics, Distributed Systems, Data Security & Privacy, Cryptography, and Database System Implementation.",
     category: "education",
@@ -30,14 +30,23 @@ const timelineEvents: TimelineEvent[] = [
   // Experience
   {
     id: 3,
-    title: "Software Engineer: Co-op",
-    date: "Ecolab\nAug 2024 - Present",
+    title: "Software Engineer",
+    date: "Ecolab\nSept 2025 - Present",
     description:
-      "Engineered PySpark ETL pipelines processing 50M+ daily Snowflake records across 170+ countries, reducing manual reporting time by 40\%.\nImplemented Great Expectations data quality framework with 25+ validation rules for global product data, achieving 99.7\% data accuracy across production systems.\nImplemented AppDynamics monitoring integration for pipeline health checks, enabling proactive notification system for 15+ production data workflows.\n Automated Snowflake ingestion workflows using Azure DevOps CI/CD with parameterized templates, improving deployment consistency by 85\% across environments.\nRevived hybrid recommendation engine using Apriori, K-means, and SVD algorithms for SKU optimization, increasing cross-sell opportunities across customer segments.\nCreated production-grade C\# (.NET) APIs to serve usage and performance metrics for 2M+ customers, powering Angular dashboards used by sales and service teams.",
+      "Owned production PySpark ETL pipelines processing 50M+ Snowflake records daily across 170+ countries, reducing manual reporting effort by 40 percent.\nExpanded data quality enforcement using Great Expectations with 25+ validation rules, improving production data accuracy to 99.7 percent.\nIntegrated AppDynamics monitoring and alerting to improve observability and reliability across 15+ production data workflows.\nAutomated Snowflake ingestion and deployment using Azure DevOps CI CD with parameterized templates, improving deployment consistency by 85 percent.\nBuilt and maintained C# and .NET backend services exposing usage and performance metrics for over 2M customers, powering Angular dashboards for sales and service teams.",
     category: "experience",
   },
   {
     id: 4,
+    title: "Software Engineer Co op",
+    date: "Ecolab\nAug 2024 - Aug 2025",
+    description:
+      "Developed PySpark based data pipelines on Snowflake to support global analytics and reporting use cases.\nImplemented data validation checks using Great Expectations to identify schema and data quality issues early in the pipeline.\nContributed to a hybrid product recommendation system using Apriori, K means, and SVD algorithms to support SKU grouping and cross sell analysis.\nWorked closely with product managers and business teams to understand data requirements and translate them into scalable data workflows.",
+    category: "experience",
+  },
+
+  {
+    id: 5,
     title: "Software Engineer",
     date: "Tata Consultancy Services\nOct 2020 - Jul 2022",
     description:
@@ -45,7 +54,7 @@ const timelineEvents: TimelineEvent[] = [
     category: "experience",
   },
   {
-    id: 5,
+    id: 6,
     title: "Software Developer: Intern",
     date: "Trivia Softwares\nFeb 2019 - Jul 2019",
     description:
