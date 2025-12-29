@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 interface Project {
   id: number;
   title: string;
-  categories: ("web" | "ai" | "backend" | "cloud")[]; // added "cloud"
+  categories: ("web" | "ai" | "backend" | "cloud" | "networking")[]; // added "cloud", "systems", and "networking"
   description: string;
   link: string;
   technologies: string[];
@@ -12,7 +12,7 @@ interface Project {
 
 export default function Projects() {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState<"all" | "web" | "ai" | "backend" | "cloud">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "web" | "ai" | "backend" | "cloud" | "networking">("all");
   const [showAllTech, setShowAllTech] = useState<{ [id: number]: boolean }>({});
 
   useEffect(() => {
@@ -37,13 +37,13 @@ export default function Projects() {
   const allProjects: Project[] = [
     {
       id: 1,
-      title: "CodeCue: AI-Powered LeetCode Assistant",
-      categories: ["web", "ai"],
+      title: "Custom TCP Protocol From Scratch",
+      categories: ["networking"],
       description:
-        "Chrome extension designed to enhance LeetCode problem-solving with instant AI-driven support and structured explanations.",
-      link: "https://github.com/veeoid/Code-Cue",
-      technologies: ["React", "TypeScript", "Node.js", "Express", "Groq API", "Chrome Extension"],
-      image: "/images/project-codecue.png",
+        "Built a custom binary application-level protocol directly on top of raw TCP, implementing message framing, stream-safe parsing, state machine enforcement, acknowledgements, and structured error handling without using HTTP or protocol libraries.",
+      link: "https://github.com/veeoid/CustomTcpProtocol",
+      technologies: ["Node.js", "TCP Sockets", "Binary Protocol Design", "State Machines"],
+      image: "/images/project-custom-tcp-protocol.png",
     },
     {
       id: 2,
@@ -126,9 +126,19 @@ export default function Projects() {
     technologies: ["Node.js", "Express", "MongoDB", "Redis", "REST APIs"],
     image: "/images/project-url-shortener.png",
   },
+  {
+      id: 9,
+      title: "CodeCue: AI-Powered LeetCode Assistant",
+      categories: ["web", "ai"],
+      description:
+        "Chrome extension designed to enhance LeetCode problem-solving with instant AI-driven support and structured explanations.",
+      link: "https://github.com/veeoid/Code-Cue",
+      technologies: ["React", "TypeScript", "Node.js", "Express", "Groq API", "Chrome Extension"],
+      image: "/images/project-codecue.png",
+    },
 
     {
-      id: 9,
+      id: 10,
       title: "Virtual Assistant with Sign Language",
       categories: ["ai"],
       description:
@@ -138,7 +148,7 @@ export default function Projects() {
       image: "/images/project-signlanguage.png",
     },
         {
-      id: 10,
+      id: 11,
       title: "TechTonic: Business Management System",
       categories: ["web", "backend"],
       description:
@@ -148,7 +158,7 @@ export default function Projects() {
       image: "/images/project-techtonic.png",
     },
     {
-      id: 11,
+      id: 12,
       title: "MovieVault - Search & Save Movies using TMDB API",
       categories: ["web"],
       description:
@@ -158,7 +168,7 @@ export default function Projects() {
       image: "/images/project-movie.png",
     },
     {
-      id: 12,
+      id: 13,
       title: "Instagram Trend Analysis",
       categories: ["backend"],
       description:
@@ -168,7 +178,7 @@ export default function Projects() {
       image: "/images/project-instatrend.png",
     },
     {
-      id: 13,
+      id: 14,
       title: "Discord Automation Bot",
       categories: ["backend"],
       description:
@@ -185,7 +195,7 @@ export default function Projects() {
       ? allProjects
       : allProjects.filter((project) => project.categories.includes(activeTab));
 
-  const tabClasses = (tab: "all" | "web" | "ai" | "backend" | "cloud") => `
+  const tabClasses = (tab: "all" | "web" | "ai" | "backend" | "cloud" | "networking") => `
     px-4 py-2 rounded-full text-sm font-medium
     ${
       activeTab === tab
@@ -236,6 +246,12 @@ export default function Projects() {
           <button onClick={() => setActiveTab("cloud")} className={tabClasses("cloud")}>
             Cloud
           </button>
+          {/* <button onClick={() => setActiveTab("systems")} className={tabClasses("systems")}>
+            Systems
+          </button> */}
+          <button onClick={() => setActiveTab("networking")} className={tabClasses("networking")}>
+            Networking
+          </button>
         </div>
 
         {/* Projects Grid */}
@@ -261,7 +277,11 @@ export default function Projects() {
                               ? "⚙️"
                               : cat === "cloud"
                                 ? "☁️"
-                                : null,
+                                // : cat === "systems"
+                                //   ? "⚙️"
+                                  : cat === "networking"
+                                    ? "🌐"
+                                    : null,
                       )}
                     </span>
                   </div>
@@ -276,6 +296,8 @@ export default function Projects() {
                         {cat === "ai" && "AI & ML"}
                         {cat === "backend" && "Backend & Data"}
                         {cat === "cloud" && "Cloud"}
+                        {/* {cat === "systems" && "Systems"} */}
+                        {cat === "networking" && "Networking"}
                       </span>
                     ))}
                   </div>
