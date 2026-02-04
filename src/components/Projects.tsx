@@ -12,7 +12,9 @@ interface Project {
 
 export default function Projects() {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState<"all" | "web" | "ai" | "backend" | "cloud" | "networking">("all");
+  const [activeTab, setActiveTab] = useState<
+    "all" | "web" | "ai" | "backend" | "cloud" | "networking"
+  >("all");
   const [showAllTech, setShowAllTech] = useState<{ [id: number]: boolean }>({});
 
   useEffect(() => {
@@ -41,7 +43,7 @@ export default function Projects() {
       categories: ["networking"],
       description:
         "Built a custom binary application-level protocol directly on top of raw TCP, implementing message framing, stream-safe parsing, state machine enforcement, acknowledgements, and structured error handling without using HTTP or protocol libraries.",
-      link: "https://github.com/veeoid/CustomTcpProtocol",
+      link: "https://github.com/veeoid/CustomTCP-Protocol",
       technologies: ["Node.js", "TCP Sockets", "Binary Protocol Design", "State Machines"],
       image: "/images/project-custom-tcp-protocol.png",
     },
@@ -117,16 +119,16 @@ export default function Projects() {
       image: "/images/project-serverless.png",
     },
     {
-    id: 8,
-    title: "URL Shortener",
-    categories: ["backend", "cloud"],
-    description:
-      "Built a backend service to generate, store, and resolve short URLs with low-latency lookups, basic analytics, and collision-safe key generation.",
-    link: "https://github.com/veeoid/URL-Shortner",
-    technologies: ["Node.js", "Express", "MongoDB", "Redis", "REST APIs"],
-    image: "/images/project-url-shortener.png",
-  },
-  {
+      id: 8,
+      title: "URL Shortener",
+      categories: ["backend", "cloud"],
+      description:
+        "Built a backend service to generate, store, and resolve short URLs with low-latency lookups, basic analytics, and collision-safe key generation.",
+      link: "https://github.com/veeoid/URL-Shortner",
+      technologies: ["Node.js", "Express", "MongoDB", "Redis", "REST APIs"],
+      image: "/images/project-url-shortener.png",
+    },
+    {
       id: 9,
       title: "CodeCue: AI-Powered LeetCode Assistant",
       categories: ["web", "ai"],
@@ -147,7 +149,7 @@ export default function Projects() {
       technologies: ["Python", "OpenCV", "TensorFlow", "Speech Recognition"],
       image: "/images/project-signlanguage.png",
     },
-        {
+    {
       id: 11,
       title: "TechTonic: Business Management System",
       categories: ["web", "backend"],
@@ -186,8 +188,7 @@ export default function Projects() {
       link: "https://github.com/veeoid/DiscordBot",
       technologies: ["Node.js", "Discord.js", "APIs", "Event Driven Systems"],
       image: "/images/project-discord-bot.png",
-    }
-
+    },
   ];
 
   const filteredProjects =
@@ -277,11 +278,11 @@ export default function Projects() {
                               ? "⚙️"
                               : cat === "cloud"
                                 ? "☁️"
-                                // : cat === "systems"
-                                //   ? "⚙️"
-                                  : cat === "networking"
-                                    ? "🌐"
-                                    : null,
+                                : // : cat === "systems"
+                                  //   ? "⚙️"
+                                  cat === "networking"
+                                  ? "🌐"
+                                  : null,
                       )}
                     </span>
                   </div>
@@ -322,9 +323,7 @@ export default function Projects() {
                   <h3 className="mb-3 text-xl font-bold text-white transition-colors group-hover:text-[#6cccb4]">
                     {project.title}
                   </h3>
-                  <p className="mb-6 flex-grow text-sm text-gray-400">
-                    {project.description}
-                  </p>
+                  <p className="mb-6 flex-grow text-sm text-gray-400">{project.description}</p>
                   <div className="mt-auto flex flex-wrap gap-2">
                     {(showAllTech[project.id]
                       ? project.technologies
