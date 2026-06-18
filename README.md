@@ -82,6 +82,17 @@ npm run dev
 This portfolio website is deployed on:  
 🔗 [https://portfolio-ca88.vercel.app/](https://portfolio-ca88.vercel.app/)
 
+## Contact Form Backend
+
+The contact form is powered by a Netlify serverless function at `/.netlify/functions/contact`.
+It validates input and sends email via SendGrid, so you only need to configure the following environment variables in Netlify:
+
+- `SENDGRID_API_KEY`
+- `SENDGRID_FROM_EMAIL`
+- `SENDGRID_TO_EMAIL`
+
+For small portfolios, Netlify functions are included in the free tier.
+
 ---
 
 ## Images Used in Portfolio

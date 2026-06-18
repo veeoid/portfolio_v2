@@ -1,9 +1,24 @@
 import { useState, useEffect, FormEvent } from "react";
-import emailjs from "emailjs-com";
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+  submit?: string;
+}
+
+const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
 export default function Contact() {
   const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -17,199 +32,217 @@ export default function Contact() {
       },
       { threshold: 0.1 },
     );
-
     const section = document.getElementById("contact");
     if (section) observer.observe(section);
-
     return () => {
       if (section) observer.unobserve(section);
     };
   }, []);
-  // useEffect(() => {
-  //   console.log("🛠️ VITE_EMAILJS_SERVICE_ID (prod):", import.meta.env.VITE_EMAILJS_SERVICE_ID);
-  //   console.log("🛠️ VITE_EMAILJS_TEMPLATE_ID (prod):", import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
-  //   console.log("🛠️ VITE_EMAILJS_PUBLIC_KEY (prod):", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-  // }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormErrors((prev) => ({ ...prev, [name]: undefined, submit: undefined }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const validate = () => {
+    const errors: FormErrors = {};
+    if (!formData.name.trim()) errors.name = "Please enter your name.";
+    if (!formData.email.trim()) errors.email = "Please enter your email.";
+    else if (!isValidEmail(formData.email)) errors.email = "Please enter a valid email address.";
+    if (!formData.message.trim()) errors.message = "Please enter a message.";
+    else if (formData.message.trim().length < 15)
+      errors.message = "Message should be at least 15 characters.";
+    return errors;
+  };
 
-    emailjs
-      .send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID!,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-        },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY!,
-      )
-      .then(() => {
-        setIsSubmitting(false);
-        setSubmitted(true);
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setSubmitted(false), 5000);
-      })
-      .catch((error) => {
-        setIsSubmitting(false);
-        console.error("Email sending failed:", error);
-        alert("Something went wrong. Please try again later.");
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const errors = validate();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormErrors({});
+
+    try {
+      const response = await fetch("/.netlify/functions/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
+
+      const result = await response.json();
+      if (!response.ok) {
+        setFormErrors({ submit: result?.error || "Unable to send message." });
+        setIsSubmitting(false);
+        return;
+      }
+
+      setSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (error) {
+      setFormErrors({ submit: "Unable to send message right now. Please try again later." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <section id="contact" className="bg-[#0f0f0f] py-24 text-white">
+    <section id="contact" className="bg-background py-24 text-foreground">
       <div
-        className={`container mx-auto px-4 transition-all duration-1000 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+        className={`mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
         }`}
       >
-        {/* Title */}
-        <div className="mb-20 text-center">
-          <h2 className="relative inline-block text-4xl font-bold">
-            Get In Touch
-            <span className="absolute -bottom-1 left-1/2 h-[3px] w-28 -translate-x-1/2 rounded bg-gradient-to-r from-[#6cccb4] to-[#cdaa57] opacity-80"></span>
-          </h2>
+        {/* Header */}
+        <div className="mb-16">
+          <p className="section-label mb-3">Contact</p>
+          <h2 className="font-display text-4xl font-bold text-foreground">Get In Touch</h2>
         </div>
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+          {/* Left */}
+          <div className="flex flex-col justify-start">
+            <p className="mb-8 max-w-sm text-sm leading-relaxed text-muted">
+              Open to new opportunities, collaborations, or just a conversation about engineering.
+              Drop a message and I'll get back to you.
+            </p>
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* Left: Contact Info */}
-          <div className="flex flex-col justify-center space-y-8">
-            <div>
-              <h3 className="mb-2 inline-block border-b-2 border-transparent text-2xl font-semibold text-[#6cccb4] transition hover:border-[#6cccb4]">
-                Let's Connect
-              </h3>
-              <p className="mt-3 max-w-md text-gray-400">
-                I'm always open to new opportunities, collaborations, or a quick chat about tech.
-                Drop me a message anytime!
-              </p>
+            <div className="space-y-4">
+              <a
+                href="mailto:vismaychaudhari7@gmail.com"
+                className="flex items-center gap-3 text-sm text-muted transition-colors hover:text-accent"
+              >
+                <svg
+                  className="h-4 w-4 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                  />
+                </svg>
+                vismaychaudhari7@gmail.com
+              </a>
+              <div className="text-dim flex items-center gap-3 text-sm">
+                <svg
+                  className="h-4 w-4 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                  />
+                </svg>
+                Seattle, WA
+              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="rounded-full bg-gradient-to-br from-[#6cccb4] to-[#cdaa57] p-2">
-                  <svg
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path strokeLinecap="round" d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
-                    <path strokeLinecap="round" d="M3 12a9 9 0 1 1 18 0" />
-                  </svg>
-                </div>
-                <a
-                  href="mailto:vismaychuadhari7@gmail.com"
-                  className="text-gray-300 transition hover:text-[#6cccb4]"
-                >
-                  vismaychuadhari7@gmail.com
-                </a>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="rounded-full bg-gradient-to-br from-[#6cccb4] to-[#cdaa57] p-2">
-                  <svg
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                    />
-                  </svg>
-                </div>
-                <span className="text-gray-300">Seattle, WA</span>
-              </div>
-
-              <div className="flex space-x-5 pt-2">
-                <a
-                  href="https://github.com/veeoid"
-                  target="_blank"
-                  className="transform transition hover:scale-110 hover:text-[#6cccb4]"
-                >
-                  <i className="fab fa-github text-2xl"></i>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/vismay-chaudhari/"
-                  target="_blank"
-                  className="transform transition hover:scale-110 hover:text-[#6cccb4]"
-                >
-                  <i className="fab fa-linkedin text-2xl"></i>
-                </a>
-              </div>
+            <div className="mt-10 flex gap-4">
+              <a
+                href="https://github.com/veeoid"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded border border-border px-4 py-2 text-xs text-muted transition-all hover:border-accent hover:text-accent"
+              >
+                GitHub ↗
+              </a>
+              <a
+                href="https://www.linkedin.com/in/vismay-chaudhari/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded border border-border px-4 py-2 text-xs text-muted transition-all hover:border-accent hover:text-accent"
+              >
+                LinkedIn ↗
+              </a>
             </div>
           </div>
 
           {/* Right: Form */}
-          <div className="rounded-xl border border-[#222] bg-[#151515] p-8 shadow-lg">
+          <div>
             {submitted ? (
-              <div className="py-12 text-center">
-                <div className="mb-6 text-[#6cccb4]">
+              <div className="flex h-full flex-col items-start justify-center gap-4 py-12">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-accent text-accent">
                   <svg
-                    className="mx-auto h-14 w-14"
+                    className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth={1.5}
+                    viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                   </svg>
                 </div>
-                <h3 className="mb-2 text-2xl font-semibold">Thanks for reaching out!</h3>
-                <p className="text-gray-400">I'll get back to you shortly.</p>
+                <h3 className="font-display text-xl font-semibold text-foreground">
+                  Message sent.
+                </h3>
+                <p className="text-sm text-muted">I'll get back to you shortly.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label htmlFor="name" className="mb-1 block text-sm text-gray-300">
+                  <label
+                    htmlFor="name"
+                    className="mb-1.5 block text-xs uppercase tracking-wider text-muted"
+                  >
                     Name
                   </label>
                   <input
                     type="text"
-                    name="name"
                     id="name"
+                    name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-md border border-[#333] bg-[#1f1f1f] px-4 py-3 text-white transition focus:outline-none focus:ring-2 focus:ring-[#6cccb4]"
+                    placeholder="Your name"
+                    className="placeholder:text-dim"
                   />
+                  {formErrors.name ? (
+                    <p className="mt-2 text-xs text-accent">{formErrors.name}</p>
+                  ) : null}
                 </div>
-
                 <div>
-                  <label htmlFor="email" className="mb-1 block text-sm text-gray-300">
+                  <label
+                    htmlFor="email"
+                    className="mb-1.5 block text-xs uppercase tracking-wider text-muted"
+                  >
                     Email
                   </label>
                   <input
                     type="email"
-                    name="email"
                     id="email"
+                    name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-md border border-[#333] bg-[#1f1f1f] px-4 py-3 text-white transition focus:outline-none focus:ring-2 focus:ring-[#6cccb4]"
+                    placeholder="your@email.com"
+                    className="placeholder:text-dim"
                   />
+                  {formErrors.email ? (
+                    <p className="mt-2 text-xs text-accent">{formErrors.email}</p>
+                  ) : null}
                 </div>
-
                 <div>
-                  <label htmlFor="message" className="mb-1 block text-sm text-gray-300">
+                  <label
+                    htmlFor="message"
+                    className="mb-1.5 block text-xs uppercase tracking-wider text-muted"
+                  >
                     Message
                   </label>
                   <textarea
@@ -219,16 +252,24 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="w-full resize-none rounded-md border border-[#333] bg-[#1f1f1f] px-4 py-3 text-white transition focus:outline-none focus:ring-2 focus:ring-[#6cccb4]"
-                  ></textarea>
+                    placeholder="What's on your mind?"
+                    className="placeholder:text-dim resize-none"
+                  />
+                  {formErrors.message ? (
+                    <p className="mt-2 text-xs text-accent">{formErrors.message}</p>
+                  ) : null}
                 </div>
-
+                {formErrors.submit ? (
+                  <div className="bg-surface rounded-sm px-4 py-3 text-sm text-accent">
+                    {formErrors.submit}
+                  </div>
+                ) : null}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-md bg-gradient-to-r from-[#6cccb4] to-[#89d8c7] px-6 py-3 font-semibold text-[#151514] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="w-full rounded-sm bg-accent py-3 text-sm font-semibold text-background transition-all hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? "Sending…" : "Send Message"}
                 </button>
               </form>
             )}

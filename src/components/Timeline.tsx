@@ -1,163 +1,199 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-interface TimelineEvent {
+interface Event {
   id: number;
-  title: string;
-  date: string;
-  description: string;
+  role: string;
+  org: string;
+  period: string;
+  type: string;
+  bullets: string[];
   category: "education" | "experience";
 }
 
-const timelineEvents: TimelineEvent[] = [
-  // Education
+const events: Event[] = [
   {
     id: 1,
-    title: "MS in Computer Science",
-    date: "Rochester Institute of Technology\n Aug 2022 - Dec 2025",
-    description:
-      "Related Coursework: Data Structures & Algorithms, Artificial Intelligence, Machine Learning, Big Data Analytics, Distributed Systems, Data Security & Privacy, Cryptography, and Database System Implementation.",
-    category: "education",
+    role: "Software Engineer",
+    org: "Ecolab",
+    period: "Sept 2025 – Present",
+    type: "Full-time",
+    bullets: [
+      "Owned production PySpark ETL pipelines processing 50M+ Snowflake records daily across 170+ countries, reducing manual reporting by 40%.",
+      "Expanded data quality enforcement with Great Expectations — 25+ validation rules, 99.7% production data accuracy.",
+      "Integrated AppDynamics monitoring and alerting across 15+ production data workflows.",
+      "Automated Snowflake ingestion and deployment via Azure DevOps CI/CD, improving deployment consistency by 85%.",
+      "Built C# / .NET backend services powering Angular dashboards for 2M+ customers.",
+    ],
+    category: "experience",
   },
   {
     id: 2,
-    title: "BE in Information Technology",
-    date: "University of Mumbai\nJul 2016 - Oct 2020",
-    description:
-      "Related Coursework: Operating Systems, Database Management Systems, Computer Networking, Artificial Intelligence, Business Intelligence.",
-    category: "education",
+    role: "Software Engineer Co-op",
+    org: "Ecolab",
+    period: "Aug 2024 – Aug 2025",
+    type: "Co-op",
+    bullets: [
+      "Built PySpark data pipelines on Snowflake supporting global analytics and reporting.",
+      "Implemented Great Expectations validation to catch schema and data quality issues early.",
+      "Contributed to a hybrid recommendation system (Apriori, K-means, SVD) for SKU grouping and cross-sell analysis.",
+    ],
+    category: "experience",
   },
-
-  // Experience
   {
     id: 3,
-    title: "Software Engineer",
-    date: "Ecolab\nSept 2025 - Present",
-    description:
-      "Owned production PySpark ETL pipelines processing 50M+ Snowflake records daily across 170+ countries, reducing manual reporting effort by 40 percent.\nExpanded data quality enforcement using Great Expectations with 25+ validation rules, improving production data accuracy to 99.7 percent.\nIntegrated AppDynamics monitoring and alerting to improve observability and reliability across 15+ production data workflows.\nAutomated Snowflake ingestion and deployment using Azure DevOps CI CD with parameterized templates, improving deployment consistency by 85 percent.\nBuilt and maintained C# and .NET backend services exposing usage and performance metrics for over 2M customers, powering Angular dashboards for sales and service teams.",
+    role: "Software Engineer",
+    org: "Tata Consultancy Services",
+    period: "Oct 2020 – Jul 2022",
+    type: "Full-time",
+    bullets: [
+      "Built .NET APIs to capture trade details and route them via ActiveMQ, replacing legacy TIBCO messaging in capital markets.",
+      "Automated compliance validation workflows using VBScript and UFT.",
+      "Queried and analyzed large transactional datasets in SQL Server for debugging and reporting.",
+    ],
     category: "experience",
   },
   {
     id: 4,
-    title: "Software Engineer Co op",
-    date: "Ecolab\nAug 2024 - Aug 2025",
-    description:
-      "Developed PySpark based data pipelines on Snowflake to support global analytics and reporting use cases.\nImplemented data validation checks using Great Expectations to identify schema and data quality issues early in the pipeline.\nContributed to a hybrid product recommendation system using Apriori, K means, and SVD algorithms to support SKU grouping and cross sell analysis.\nWorked closely with product managers and business teams to understand data requirements and translate them into scalable data workflows.",
+    role: "Software Developer Intern",
+    org: "Trivia Softwares",
+    period: "Feb 2019 – Jul 2019",
+    type: "Internship",
+    bullets: [
+      "Built a Student Database Management System in Python + SQLite.",
+      "Developed an Android app in Java/XML to interface with the backend and sync data in real-time.",
+    ],
     category: "experience",
   },
-
   {
     id: 5,
-    title: "Software Engineer",
-    date: "Tata Consultancy Services\nOct 2020 - Jul 2022",
-    description:
-      "Developed backend APIs in .NET to capture trade details and transmit them to downstream systems via ActiveMQ, replacing legacy TIBCO-based messaging in a capital markets project.\nAutomated backend validation workflows using VBScript and UFT, enabling compliance checks on trade data without manual intervention.\nQueried and analyzed large volumes of transactional data using SQL Server for debugging, reporting, and ensuring data accuracy.\nGained hands-on experience working with trade processing systems handling sensitive financial data, collaborating closely with developers, testers, and business analysts in Agile teams.",
-    category: "experience",
+    role: "MS Computer Science",
+    org: "Rochester Institute of Technology",
+    period: "Aug 2022 – Dec 2025",
+    type: "Graduate",
+    bullets: [
+      "Data Structures & Algorithms, AI, Machine Learning, Big Data Analytics, Distributed Systems, Database Implementation.",
+    ],
+    category: "education",
   },
   {
     id: 6,
-    title: "Software Developer: Intern",
-    date: "Trivia Softwares\nFeb 2019 - Jul 2019",
-    description:
-      "Designed and developed a Student Database Management System using Python and SQLite, implementing core backend functionalities for efficient CRUD operations on student records.\nBuilt an Android application using Java and XML to enable users to interact with the backend system and sync data in real-time.\nOptimized database schema and queries to improve performance and ensure smooth data retrieval across the system.\nCollaborated with the team to troubleshoot and resolve data synchronization issues between the mobile app and backend.\nTested the system for usability and ensured seamless interaction between the Android app and database.",
-    category: "experience",
+    role: "BE Information Technology",
+    org: "University of Mumbai",
+    period: "Jul 2016 – Oct 2020",
+    type: "Undergraduate",
+    bullets: [
+      "Operating Systems, DBMS, Computer Networking, Artificial Intelligence, Business Intelligence.",
+    ],
+    category: "education",
   },
 ];
 
-export default function Timeline() {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+function TimelineCard({ event, isLast }: { event: Event; isLast: boolean }) {
+  const [open, setOpen] = useState(false);
 
-  const educationEvents = timelineEvents.filter((e) => e.category === "education");
-  const experienceEvents = timelineEvents.filter((e) => e.category === "experience");
-
-  const toggleExpand = (id: number) => {
-    setExpandedId((prev) => (prev === id ? null : id));
-  };
-
-  const renderEvent = (event: TimelineEvent) => {
-    const [institute, graduation] = event.date.split("\n");
-    const descriptionLines = event.description.split("\n");
-    const isBulletList = descriptionLines.length > 1;
-
-    return (
-      <div
-        key={event.id}
-        className="group relative mb-10 cursor-pointer rounded-2xl border border-[#3fc8a7]/10 bg-[#1a1a1a] p-6 pl-10 transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg hover:ring-2 hover:ring-[#3fc8a7]/30 hover:ring-offset-2"
-        onClick={() => toggleExpand(event.id)}
-      >
+  return (
+    <div className="relative flex gap-5">
+      {/* Connector */}
+      <div className="flex flex-col items-center">
         <div
-          className={`absolute left-2 top-6 h-4 w-4 rounded-full ${
-            expandedId === event.id ? "animate-pulse bg-[#3fc8a7]" : "bg-[#3fc8a7]"
+          className={`mt-1 h-3 w-3 flex-shrink-0 rounded-full border-2 transition-colors duration-200 ${
+            open ? "border-accent bg-accent" : "border-border bg-background"
           }`}
-        ></div>
-        <div className="flex items-center justify-between">
-          <h4 className="text-lg font-bold text-white">{event.title}</h4>
-          <span className="text-lg text-white">{expandedId === event.id ? "−" : "+"}</span>
+        />
+        {!isLast && <div className="bg-border-subtle mt-1 w-px flex-1" />}
+      </div>
+
+      {/* Card */}
+      <div
+        className={`mb-6 flex-1 cursor-pointer rounded border transition-all duration-200 ${
+          open ? "bg-surface border-accent/30" : "hover:border-border-subtle border-border bg-card"
+        }`}
+        onClick={() => setOpen(!open)}
+      >
+        <div className="flex items-start justify-between p-4">
+          <div>
+            <div className="mb-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <h4 className="text-sm font-semibold text-foreground">{event.role}</h4>
+              <span className="text-xs text-accent">@ {event.org}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] text-muted">{event.period}</span>
+              <span className="bg-surface rounded-sm px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
+                {event.type}
+              </span>
+            </div>
+          </div>
+          <svg
+            className={`mt-0.5 h-4 w-4 flex-shrink-0 text-muted transition-transform duration-200 ${
+              open ? "rotate-180" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.5}
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          </svg>
         </div>
-        <span className="block text-base font-medium leading-tight text-[#cccccc]">
-          {institute}
-        </span>
-        <span className="mb-1 block text-xs text-[#999999]">{graduation}</span>
-        {expandedId === event.id &&
-          (isBulletList ? (
-            <ul className="animate-fade-in mt-1 list-inside list-disc text-sm text-gray-400">
-              {descriptionLines.map((line, index) => (
-                <li
-                  key={index}
-                  className="transition-all duration-200 ease-in-out hover:translate-x-1 hover:text-[#3fc8a7]"
-                >
-                  {line}
+
+        {open && (
+          <div className="border-t border-border px-4 py-4">
+            <ul className="space-y-2">
+              {event.bullets.map((b, i) => (
+                <li key={i} className="flex gap-3 text-xs leading-relaxed text-muted">
+                  <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-accent" />
+                  {b}
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="animate-fade-in mt-1 whitespace-pre-line text-sm text-gray-400">
-              {event.description}
-            </p>
-          ))}
+          </div>
+        )}
       </div>
-    );
-  };
+    </div>
+  );
+}
+
+export default function Timeline() {
+  const experience = events.filter((e) => e.category === "experience");
+  const education = events.filter((e) => e.category === "education");
 
   return (
-    <section id="timeline" className="bg-[#0a0a0a] py-20 text-white">
-      <div className="mx-auto max-w-5xl px-4">
-        <h2 className="mb-12 text-center text-3xl font-bold text-[#3fc8a7]">My Journey</h2>
+    <section id="timeline" className="bg-background py-24 text-foreground">
+      <div className="mx-auto max-w-6xl px-6 md:px-12">
+        {/* Header */}
+        <div className="mb-16">
+          <p className="section-label mb-3">Background</p>
+          <h2 className="font-display text-4xl font-bold text-foreground">
+            Experience & Education
+          </h2>
+        </div>
 
-        <div className="grid gap-12 md:grid-cols-2">
+        <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+          {/* Experience */}
           <div>
-            <h3 className="mb-6 text-2xl font-semibold text-[#3fc8a7]">🎓 Education</h3>
-            <div className="relative">
-              <div className="absolute bottom-0 left-4 top-0 w-1 rounded-full bg-gradient-to-b from-[#3fc8a7] to-[#17796d]"></div>
-              {educationEvents.map(renderEvent)}
+            <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+              Experience
+            </p>
+            <div>
+              {experience.map((e, i) => (
+                <TimelineCard key={e.id} event={e} isLast={i === experience.length - 1} />
+              ))}
             </div>
           </div>
 
+          {/* Education */}
           <div>
-            <h3 className="mb-6 text-2xl font-semibold text-[#3fc8a7]">💼 Experience</h3>
-            <div className="relative">
-              <div className="absolute bottom-0 left-4 top-0 w-1 rounded-full bg-gradient-to-b from-[#3fc8a7] to-[#17796d]"></div>
-              {experienceEvents.map(renderEvent)}
+            <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+              Education
+            </p>
+            <div>
+              {education.map((e, i) => (
+                <TimelineCard key={e.id} event={e} isLast={i === education.length - 1} />
+              ))}
             </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-5px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 }
