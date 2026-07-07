@@ -206,6 +206,16 @@ function ProjectCard({ project }: { project: Project }) {
         rel="noopener noreferrer"
         className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/15"
       >
+        {/* Retro window chrome */}
+        <div className="flex items-center gap-1.5 border-b border-border/60 px-5 py-2.5">
+          <span className="h-2 w-2 rounded-full bg-[color:var(--aur-rose)]" />
+          <span className="h-2 w-2 rounded-full bg-[color:var(--aur-amber)]" />
+          <span className="h-2 w-2 rounded-full bg-[color:var(--aur-lavender)]" />
+          <span className="text-dim ml-2 truncate font-mono text-[10px]">
+            ~/{project.title.toLowerCase().split(":")[0].replace(/\s+/g, "-")}
+          </span>
+        </div>
+
         {/* Thumbnail */}
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-border/20 bg-card shadow-inner shadow-black/10">
           {project.video ? (
@@ -323,7 +333,11 @@ export default function Projects() {
     activeTab === "all" ? allProjects : allProjects.filter((p) => p.categories.includes(activeTab));
 
   return (
-    <section id="projects" className="relative bg-background py-24 text-foreground">
+    <section id="projects" className="relative overflow-hidden bg-background py-24 text-foreground">
+      <div
+        className="pointer-events-none absolute -top-24 right-[-6%] h-[420px] w-[420px] rounded-full opacity-[0.09] blur-3xl animate-blob-drift"
+        style={{ background: "radial-gradient(circle, var(--aur-rose) 0%, transparent 60%)" }}
+      />
       <div
         className={`mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
           isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
@@ -341,9 +355,9 @@ export default function Projects() {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`rounded-sm px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
+              className={`rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
                 activeTab === tab.value
-                  ? "bg-accent text-background"
+                  ? "bg-accent text-background shadow-md shadow-accent/25"
                   : "hover:border-border-subtle border border-border text-muted hover:text-foreground"
               }`}
             >

@@ -92,9 +92,20 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="bg-background py-24 text-foreground">
+    <section id="contact" className="relative overflow-hidden bg-background py-24 text-foreground">
       <div
-        className={`mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
+        className="pointer-events-none absolute -bottom-24 -left-24 h-[400px] w-[400px] rounded-full opacity-[0.09] blur-3xl animate-blob-drift"
+        style={{ background: "radial-gradient(circle, var(--aur-rose) 0%, transparent 60%)" }}
+      />
+      <div
+        className="pointer-events-none absolute -right-24 top-0 h-[380px] w-[380px] rounded-full opacity-[0.08] blur-3xl animate-blob-drift"
+        style={{
+          background: "radial-gradient(circle, var(--aur-lavender) 0%, transparent 60%)",
+          animationDelay: "-9s",
+        }}
+      />
+      <div
+        className={`relative mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
           isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
         }`}
       >
@@ -159,7 +170,7 @@ export default function Contact() {
                 href="https://github.com/veeoid"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded border border-border px-4 py-2 text-xs text-muted transition-all hover:border-accent hover:text-accent"
+                className="rounded-lg border border-border px-4 py-2 text-xs text-muted transition-all hover:border-[color:var(--aur-rose)] hover:text-[color:var(--aur-rose)]"
               >
                 GitHub ↗
               </a>
@@ -167,7 +178,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/vismay-chaudhari/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded border border-border px-4 py-2 text-xs text-muted transition-all hover:border-accent hover:text-accent"
+                className="rounded-lg border border-border px-4 py-2 text-xs text-muted transition-all hover:border-[color:var(--aur-lavender)] hover:text-[color:var(--aur-lavender)]"
               >
                 LinkedIn ↗
               </a>
@@ -267,7 +278,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-sm bg-accent py-3 text-sm font-semibold text-background transition-all hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-lg bg-accent py-3 text-sm font-semibold text-background shadow-md shadow-accent/20 transition-all hover:-translate-y-px hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/25 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isSubmitting ? "Sending…" : "Send Message"}
                 </button>

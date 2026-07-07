@@ -1,7 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import HeroScene from "./HeroScene";
+
+const ROLES = ["Software Engineer", "Backend Architect", "Cloud Engineer", "Systems Builder"];
+
+function useTypewriter(words: string[]) {
+  const [idx, setIdx] = useState(0);
+  const [chars, setChars] = useState(words[0].length);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const word = words[idx];
+    const delay = deleting ? 42 : chars === word.length ? 2000 : 82;
+    const t = setTimeout(() => {
+      if (!deleting) {
+        if (chars < word.length) setChars((c) => c + 1);
+        else setDeleting(true);
+      } else {
+        if (chars > 0) setChars((c) => c - 1);
+        else {
+          setDeleting(false);
+          setIdx((i) => (i + 1) % words.length);
+        }
+      }
+    }, delay);
+    return () => clearTimeout(t);
+  }, [chars, deleting, idx, words]);
+
+  return words[idx].slice(0, chars);
+}
+
+function useMagnetic(strength = 0.38) {
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(pointer: coarse)").matches) return;
+
+    const THRESH = 90;
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < THRESH) {
+        const f = (1 - dist / THRESH) * strength;
+        el.style.transform = `translate(${dx * f}px,${dy * f}px)`;
+      } else {
+        el.style.transform = "";
+      }
+    };
+    const onLeave = () => { el.style.transform = ""; };
+    window.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, [strength]);
+
+  return ref;
+}
 
 export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const role = useTypewriter(ROLES);
+  const cta1 = useMagnetic();
+  const cta2 = useMagnetic();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
@@ -13,25 +77,45 @@ export default function Hero() {
       id="about"
       className="relative flex min-h-screen items-center overflow-hidden bg-background pt-20 text-foreground"
     >
-      {/* Subtle warm glow — bottom left only */}
+      {/* Drifting pastel atmosphere behind the sculpture */}
       <div
-        className="pointer-events-none absolute -bottom-32 -left-32 h-[480px] w-[480px] rounded-full opacity-[0.07] blur-3xl"
-        style={{ background: "radial-gradient(circle, var(--accent) 0%, transparent 60%)" }}
+        className="pointer-events-none absolute -bottom-32 -left-32 h-[520px] w-[520px] rounded-full opacity-20 blur-3xl animate-blob-drift"
+        style={{ background: "radial-gradient(circle, var(--aur-amber) 0%, transparent 60%)" }}
+      />
+      <div
+        className="pointer-events-none absolute -top-20 right-[-8%] h-[460px] w-[460px] rounded-full opacity-[0.16] blur-3xl animate-blob-drift"
+        style={{
+          background: "radial-gradient(circle, var(--aur-rose) 0%, transparent 60%)",
+          animationDelay: "-6s",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute bottom-[10%] right-[18%] h-[380px] w-[380px] rounded-full opacity-[0.14] blur-3xl animate-blob-drift"
+        style={{
+          background: "radial-gradient(circle, var(--aur-lavender) 0%, transparent 60%)",
+          animationDelay: "-12s",
+        }}
       />
 
+      {/* 3D retro computer */}
+      <HeroScene />
+
       <div
-        className={`relative z-10 mx-auto flex w-full max-w-6xl flex-col items-start gap-16 px-6 py-20 transition-all duration-1000 md:flex-row md:items-center md:px-12 ${
+        className={`relative z-10 mx-auto w-full max-w-6xl px-6 py-20 transition-all duration-1000 md:px-12 ${
           isLoaded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
         }`}
       >
-        {/* ── Left: Text ── */}
-        <div className="flex flex-1 flex-col">
-          <p className="section-label mb-6">Software Engineer</p>
+        <div className="flex max-w-3xl flex-col">
+          {/* Typewriter role */}
+          <p className="section-label mb-6 min-h-[1.2em]">
+            {role}
+            <span className="ml-0.5 inline-block h-3 w-px animate-blink bg-accent align-middle" />
+          </p>
 
-          <h1 className="font-display mb-0 text-6xl font-bold leading-none tracking-tight text-foreground md:text-7xl lg:text-8xl">
+          <h1 className="font-display aurora-text mb-0 pb-1 text-6xl font-bold leading-none tracking-tight md:text-8xl lg:text-9xl">
             Vismay
           </h1>
-          <h1 className="font-display mb-8 text-6xl font-bold leading-none tracking-tight text-foreground md:text-7xl lg:text-8xl">
+          <h1 className="font-display aurora-text mb-8 pb-2 text-6xl font-bold leading-none tracking-tight md:text-8xl lg:text-9xl">
             Chaudhari
           </h1>
 
@@ -41,24 +125,27 @@ export default function Hero() {
             Backend · Data Engineering · Cloud
           </p>
 
-          <p className="mb-10 max-w-[420px] text-base leading-relaxed text-muted md:text-lg">
+          <p className="mb-10 max-w-[460px] text-base leading-relaxed text-muted md:text-lg">
             I build backend systems and data infrastructure that hold up under real load. My focus
             is on reliability and designing systems that stay clean as they grow.
           </p>
 
-          {/* CTAs */}
+          {/* Magnetic CTAs */}
           <div className="flex flex-wrap items-center gap-3">
             <a
+              ref={cta1}
               href="#projects"
-              className="rounded-sm bg-accent px-6 py-2.5 text-sm font-semibold text-background transition-all hover:-translate-y-px hover:bg-accent/90 hover:shadow-lg"
+              className="rounded-sm bg-accent px-6 py-2.5 text-sm font-semibold text-background transition-shadow duration-200 hover:shadow-lg hover:shadow-accent/25"
+              style={{ transition: "box-shadow 0.2s" }}
             >
               Selected Work
             </a>
             <a
+              ref={cta2}
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-sm border border-border px-6 py-2.5 text-sm font-medium text-muted transition-all hover:-translate-y-px hover:border-accent hover:text-accent"
+              className="rounded-sm border border-border px-6 py-2.5 text-sm font-medium text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
             >
               Resume ↗
             </a>
@@ -95,22 +182,6 @@ export default function Hero() {
             <div className="h-3 w-px bg-border" />
             <span className="text-xs text-muted">Seattle, WA</span>
           </div>
-        </div>
-
-        {/* ── Right: Photo ── */}
-        <div className="relative hidden flex-shrink-0 md:block">
-          <div className="from-surface/90 relative h-[520px] w-80 overflow-hidden rounded-[1.75rem] border border-border/20 bg-gradient-to-br via-background/90 to-background/90 shadow-2xl shadow-black/20">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(212,151,58,0.18),_transparent_35%)]" />
-            <img
-              src="/regular.png"
-              alt="Vismay Chaudhari"
-              className="relative h-full w-full object-cover"
-            />
-            {/* Subtle bottom gradient */}
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background/85 to-transparent" />
-          </div>
-          {/* Offset amber border behind — gives depth */}
-          <div className="absolute -bottom-4 -right-4 -z-10 h-full w-full rounded-[1.75rem] border border-accent/20" />
         </div>
       </div>
 

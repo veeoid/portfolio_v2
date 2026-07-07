@@ -173,6 +173,13 @@ for (let i = 0; i < nums.length; i++) {
           transition={{ duration: 0.2, ease: "easeOut" }}
           className="pointer-events-auto absolute inset-0 z-30 flex flex-col rounded-[1.75rem] border border-border bg-card p-5 shadow-xl"
         >
+          {/* Window chrome */}
+          <div className="mb-3 flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-[color:var(--aur-rose)]" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--aur-amber)]" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--aur-lavender)]" />
+          </div>
+
           {/* Title + categories */}
           <div className="border-b border-border-subtle pb-3">
             <div className="flex items-start justify-between gap-2">
@@ -184,8 +191,14 @@ for (let i = 0; i < nums.length; i++) {
               )}
             </div>
             <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
-              {project.categories.map((cat) => (
-                <span key={cat} className="text-[10px] uppercase tracking-wider text-accent">
+              {project.categories.map((cat, i) => (
+                <span
+                  key={cat}
+                  className="text-[10px] uppercase tracking-wider"
+                  style={{
+                    color: `var(--aur-${(["rose", "lavender", "amber"] as const)[i % 3]})`,
+                  }}
+                >
                   {cat}
                 </span>
               ))}

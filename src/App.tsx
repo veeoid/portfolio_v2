@@ -7,6 +7,7 @@ import Publications from "./components/Publications";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Timeline from "./components/Timeline";
+import Cursor from "./components/Cursor";
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -17,6 +18,8 @@ export default function App() {
 
   return (
     <div className={`transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
+      <Cursor />
+      <div className="grain" aria-hidden="true" />
       <Header />
       <div id="content" className="content">
         <Hero />

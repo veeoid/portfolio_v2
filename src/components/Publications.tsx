@@ -70,7 +70,10 @@ export default function Publications() {
 
                 {/* Content */}
                 <div className="flex-1">
-                  <div className="mb-1 text-xs font-medium uppercase tracking-wider text-accent">
+                  <div
+                    className="mb-1 text-xs font-medium uppercase tracking-wider"
+                    style={{ color: "var(--aur-lavender)" }}
+                  >
                     {pub.venue}
                   </div>
                   <h3 className="mb-3 text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-accent md:text-lg">
@@ -114,7 +117,7 @@ export default function Publications() {
 
                 {/* Number */}
                 <div className="hidden flex-shrink-0 md:block">
-                  <span className="font-display select-none text-5xl font-bold text-border">
+                  <span className="font-display select-none text-5xl font-bold text-border transition-colors duration-300 group-hover:text-[color:var(--aur-rose)]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>

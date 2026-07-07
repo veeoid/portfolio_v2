@@ -75,7 +75,7 @@ export default function Header() {
           href="/"
           className="font-display text-xl font-bold text-foreground transition-colors hover:text-accent"
         >
-          VC
+          VC<span className="text-[color:var(--aur-rose)]">.</span>
         </a>
 
         {/* Desktop nav */}

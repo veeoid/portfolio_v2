@@ -88,7 +88,15 @@ const events: Event[] = [
   },
 ];
 
-function TimelineCard({ event, isLast }: { event: Event; isLast: boolean }) {
+function TimelineCard({
+  event,
+  isLast,
+  tone,
+}: {
+  event: Event;
+  isLast: boolean;
+  tone: string;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -96,18 +104,22 @@ function TimelineCard({ event, isLast }: { event: Event; isLast: boolean }) {
       {/* Connector */}
       <div className="flex flex-col items-center">
         <div
-          className={`mt-1 h-3 w-3 flex-shrink-0 rounded-full border-2 transition-colors duration-200 ${
-            open ? "border-accent bg-accent" : "border-border bg-background"
-          }`}
+          className="mt-1 h-3 w-3 flex-shrink-0 rounded-full border-2 transition-colors duration-200"
+          style={
+            open
+              ? { borderColor: `var(--aur-${tone})`, backgroundColor: `var(--aur-${tone})` }
+              : { borderColor: "var(--border)", backgroundColor: "var(--bg)" }
+          }
         />
         {!isLast && <div className="bg-border-subtle mt-1 w-px flex-1" />}
       </div>
 
       {/* Card */}
       <div
-        className={`mb-6 flex-1 cursor-pointer rounded border transition-all duration-200 ${
-          open ? "bg-surface border-accent/30" : "hover:border-border-subtle border-border bg-card"
+        className={`mb-6 flex-1 cursor-pointer rounded-xl border transition-all duration-200 ${
+          open ? "bg-surface" : "hover:border-border-subtle border-border bg-card"
         }`}
+        style={open ? { borderColor: `color-mix(in srgb, var(--aur-${tone}) 40%, transparent)` } : undefined}
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-start justify-between p-4">
@@ -158,8 +170,12 @@ export default function Timeline() {
   const education = events.filter((e) => e.category === "education");
 
   return (
-    <section id="timeline" className="bg-background py-24 text-foreground">
-      <div className="mx-auto max-w-6xl px-6 md:px-12">
+    <section id="timeline" className="relative overflow-hidden bg-background py-24 text-foreground">
+      <div
+        className="pointer-events-none absolute -left-24 top-1/3 h-[400px] w-[400px] rounded-full opacity-[0.08] blur-3xl animate-blob-drift"
+        style={{ background: "radial-gradient(circle, var(--aur-lavender) 0%, transparent 60%)" }}
+      />
+      <div className="relative mx-auto max-w-6xl px-6 md:px-12">
         {/* Header */}
         <div className="mb-16">
           <p className="section-label mb-3">Background</p>
@@ -171,24 +187,26 @@ export default function Timeline() {
         <div className="grid gap-12 md:grid-cols-2 md:gap-16">
           {/* Experience */}
           <div>
-            <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+            <p className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+              <span className="h-2 w-2 rounded-full bg-[color:var(--aur-rose)]" />
               Experience
             </p>
             <div>
               {experience.map((e, i) => (
-                <TimelineCard key={e.id} event={e} isLast={i === experience.length - 1} />
+                <TimelineCard key={e.id} event={e} isLast={i === experience.length - 1} tone="rose" />
               ))}
             </div>
           </div>
 
           {/* Education */}
           <div>
-            <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+            <p className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+              <span className="h-2 w-2 rounded-full bg-[color:var(--aur-lavender)]" />
               Education
             </p>
             <div>
               {education.map((e, i) => (
-                <TimelineCard key={e.id} event={e} isLast={i === education.length - 1} />
+                <TimelineCard key={e.id} event={e} isLast={i === education.length - 1} tone="lavender" />
               ))}
             </div>
           </div>
