@@ -18,11 +18,11 @@ const events: Event[] = [
     period: "Sept 2025 – Present",
     type: "Full-time",
     bullets: [
-      "Owned production PySpark ETL pipelines processing 50M+ Snowflake records daily across 170+ countries, reducing manual reporting by 40%.",
-      "Expanded data quality enforcement with Great Expectations — 25+ validation rules, 99.7% production data accuracy.",
-      "Integrated AppDynamics monitoring and alerting across 15+ production data workflows.",
-      "Automated Snowflake ingestion and deployment via Azure DevOps CI/CD, improving deployment consistency by 85%.",
-      "Built C# / .NET backend services powering Angular dashboards for 2M+ customers.",
+      "Own production PySpark ETL pipelines processing 50M+ Snowflake records daily across 170+ countries, cutting manual reporting by 40%.",
+      "Enforce data quality with Great Expectations, 25+ validation rules holding production data accuracy at 99.7%.",
+      "Wired AppDynamics monitoring and alerting into 15+ production data workflows to catch failures before users do.",
+      "Automated Snowflake ingestion and deployments through Azure DevOps CI/CD, improving deployment consistency by 85%.",
+      "Build C#/.NET backend services behind Angular dashboards serving 2M+ customers.",
     ],
     category: "experience",
   },
@@ -33,9 +33,9 @@ const events: Event[] = [
     period: "Aug 2024 – Aug 2025",
     type: "Co-op",
     bullets: [
-      "Built PySpark data pipelines on Snowflake supporting global analytics and reporting.",
-      "Implemented Great Expectations validation to catch schema and data quality issues early.",
-      "Contributed to a hybrid recommendation system (Apriori, K-means, SVD) for SKU grouping and cross-sell analysis.",
+      "Built PySpark pipelines on Snowflake powering global analytics and reporting.",
+      "Added Great Expectations validation to catch schema drift and data quality issues before they spread.",
+      "Helped build a hybrid recommendation system (Apriori, K-means, SVD) for SKU grouping and cross-sell analysis.",
     ],
     category: "experience",
   },
@@ -46,9 +46,9 @@ const events: Event[] = [
     period: "Oct 2020 – Jul 2022",
     type: "Full-time",
     bullets: [
-      "Built .NET APIs to capture trade details and route them via ActiveMQ, replacing legacy TIBCO messaging in capital markets.",
-      "Automated compliance validation workflows using VBScript and UFT.",
-      "Queried and analyzed large transactional datasets in SQL Server for debugging and reporting.",
+      "Built .NET APIs capturing trade details and routing them over ActiveMQ, replacing legacy TIBCO messaging in capital markets.",
+      "Automated compliance validation workflows with VBScript and UFT.",
+      "Dug through large transactional datasets in SQL Server to debug issues and support reporting.",
     ],
     category: "experience",
   },
@@ -59,8 +59,8 @@ const events: Event[] = [
     period: "Feb 2019 – Jul 2019",
     type: "Internship",
     bullets: [
-      "Built a Student Database Management System in Python + SQLite.",
-      "Developed an Android app in Java/XML to interface with the backend and sync data in real-time.",
+      "Built a student database management system in Python and SQLite.",
+      "Developed an Android app in Java/XML that synced with the backend in real time.",
     ],
     category: "experience",
   },
@@ -88,15 +88,7 @@ const events: Event[] = [
   },
 ];
 
-function TimelineCard({
-  event,
-  isLast,
-  tone,
-}: {
-  event: Event;
-  isLast: boolean;
-  tone: string;
-}) {
+function TimelineCard({ event, isLast, tone }: { event: Event; isLast: boolean; tone: string }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -111,15 +103,19 @@ function TimelineCard({
               : { borderColor: "var(--border)", backgroundColor: "var(--bg)" }
           }
         />
-        {!isLast && <div className="bg-border-subtle mt-1 w-px flex-1" />}
+        {!isLast && <div className="mt-1 w-px flex-1 bg-border-subtle" />}
       </div>
 
       {/* Card */}
       <div
         className={`mb-6 flex-1 cursor-pointer rounded-xl border transition-all duration-200 ${
-          open ? "bg-surface" : "hover:border-border-subtle border-border bg-card"
+          open ? "bg-surface" : "border-border bg-card hover:border-border-subtle"
         }`}
-        style={open ? { borderColor: `color-mix(in srgb, var(--aur-${tone}) 40%, transparent)` } : undefined}
+        style={
+          open
+            ? { borderColor: `color-mix(in srgb, var(--aur-${tone}) 40%, transparent)` }
+            : undefined
+        }
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-start justify-between p-4">
@@ -130,7 +126,7 @@ function TimelineCard({
             </div>
             <div className="flex items-center gap-3">
               <span className="text-[11px] text-muted">{event.period}</span>
-              <span className="bg-surface rounded-sm px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
+              <span className="rounded-sm bg-surface px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
                 {event.type}
               </span>
             </div>
@@ -172,7 +168,7 @@ export default function Timeline() {
   return (
     <section id="timeline" className="relative overflow-hidden bg-background py-24 text-foreground">
       <div
-        className="pointer-events-none absolute -left-24 top-1/3 h-[400px] w-[400px] rounded-full opacity-[0.08] blur-3xl animate-blob-drift"
+        className="animate-blob-drift pointer-events-none absolute -left-24 top-1/3 h-[400px] w-[400px] rounded-full opacity-[0.08] blur-3xl"
         style={{ background: "radial-gradient(circle, var(--aur-lavender) 0%, transparent 60%)" }}
       />
       <div className="relative mx-auto max-w-6xl px-6 md:px-12">
@@ -193,7 +189,12 @@ export default function Timeline() {
             </p>
             <div>
               {experience.map((e, i) => (
-                <TimelineCard key={e.id} event={e} isLast={i === experience.length - 1} tone="rose" />
+                <TimelineCard
+                  key={e.id}
+                  event={e}
+                  isLast={i === experience.length - 1}
+                  tone="rose"
+                />
               ))}
             </div>
           </div>
@@ -206,7 +207,12 @@ export default function Timeline() {
             </p>
             <div>
               {education.map((e, i) => (
-                <TimelineCard key={e.id} event={e} isLast={i === education.length - 1} tone="lavender" />
+                <TimelineCard
+                  key={e.id}
+                  event={e}
+                  isLast={i === education.length - 1}
+                  tone="lavender"
+                />
               ))}
             </div>
           </div>
