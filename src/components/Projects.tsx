@@ -18,6 +18,18 @@ type Tab = "all" | "web" | "ai" | "backend" | "cloud" | "networking";
 
 const allProjects: Project[] = [
   {
+    id: 15,
+    title: "Claim Verifier: AI Damage Claims",
+    categories: ["ai", "web", "backend"],
+    description:
+      "AI-assisted damage claim verification, a vision-language model inspects claim photos, then a deterministic rule layer turns that perception into a verdict (supported, contradicted, or insufficient evidence), surfaced on a dashboard.",
+    link: "https://github.com/veeoid/claim-verifier",
+    technologies: ["Next.js", "ASP.NET Core", "FastAPI", "PostgreSQL", "Gemini VLM", "Docker"],
+    image: "/images/project-claim-verifier.png",
+    demo: "https://claim-verifier-one.vercel.app",
+    award: "Live",
+  },
+  {
     id: 1,
     title: "Custom TCP Protocol From Scratch",
     categories: ["networking"],
@@ -207,17 +219,17 @@ function ProjectCard({ project }: { project: Project }) {
         className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/15"
       >
         {/* Retro window chrome */}
-        <div className="flex items-center gap-1.5 border-b border-border/60 px-5 py-2.5">
+        <div className="border-border/60 flex items-center gap-1.5 border-b px-5 py-2.5">
           <span className="h-2 w-2 rounded-full bg-[color:var(--aur-rose)]" />
           <span className="h-2 w-2 rounded-full bg-[color:var(--aur-amber)]" />
           <span className="h-2 w-2 rounded-full bg-[color:var(--aur-lavender)]" />
-          <span className="text-dim ml-2 truncate font-mono text-[10px]">
+          <span className="ml-2 truncate font-mono text-[10px] text-dim">
             ~/{project.title.toLowerCase().split(":")[0].replace(/\s+/g, "-")}
           </span>
         </div>
 
         {/* Thumbnail */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-border/20 bg-card shadow-inner shadow-black/10">
+        <div className="border-border/20 relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border bg-card shadow-inner shadow-black/10">
           {project.video ? (
             <video
               ref={videoRef}
@@ -241,7 +253,7 @@ function ProjectCard({ project }: { project: Project }) {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="grid grid-cols-3 gap-1 opacity-10">
                 {Array.from({ length: 9 }).map((_, i) => (
-                  <div key={i} className="bg-surface h-4 w-4 rounded-sm" />
+                  <div key={i} className="h-4 w-4 rounded-sm bg-surface" />
                 ))}
               </div>
             </div>
@@ -268,7 +280,7 @@ function ProjectCard({ project }: { project: Project }) {
 
           {/* Video badge */}
           {project.video && (
-            <div className="absolute left-3 top-3 flex items-center gap-1 rounded bg-background/80 px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-accent backdrop-blur-sm">
+            <div className="bg-background/80 absolute left-3 top-3 flex items-center gap-1 rounded px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-accent backdrop-blur-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Video
             </div>
@@ -287,13 +299,13 @@ function ProjectCard({ project }: { project: Project }) {
             {project.technologies.slice(0, 5).map((tech) => (
               <span
                 key={tech}
-                className="text-dim rounded-full border border-border bg-background px-3 py-1 text-[11px]"
+                className="rounded-full border border-border bg-background px-3 py-1 text-[11px] text-dim"
               >
                 {tech}
               </span>
             ))}
             {project.technologies.length > 5 && (
-              <span className="bg-surface/70 text-dim rounded-full px-3 py-1 text-[11px]">
+              <span className="bg-surface/70 rounded-full px-3 py-1 text-[11px] text-dim">
                 +{project.technologies.length - 5}
               </span>
             )}
@@ -335,7 +347,7 @@ export default function Projects() {
   return (
     <section id="projects" className="relative overflow-hidden bg-background py-24 text-foreground">
       <div
-        className="pointer-events-none absolute -top-24 right-[-6%] h-[420px] w-[420px] rounded-full opacity-[0.09] blur-3xl animate-blob-drift"
+        className="animate-blob-drift pointer-events-none absolute -top-24 right-[-6%] h-[420px] w-[420px] rounded-full opacity-[0.09] blur-3xl"
         style={{ background: "radial-gradient(circle, var(--aur-rose) 0%, transparent 60%)" }}
       />
       <div
@@ -357,8 +369,8 @@ export default function Projects() {
               onClick={() => setActiveTab(tab.value)}
               className={`rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
                 activeTab === tab.value
-                  ? "bg-accent text-background shadow-md shadow-accent/25"
-                  : "hover:border-border-subtle border border-border text-muted hover:text-foreground"
+                  ? "shadow-accent/25 bg-accent text-background shadow-md"
+                  : "border border-border text-muted hover:border-border-subtle hover:text-foreground"
               }`}
             >
               {tab.label}

@@ -4,6 +4,7 @@ import { useTheme } from "../ThemeProvider";
 const NAV = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#timeline" },
+  { label: "Live", href: "#live" },
   { label: "Work", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Publications", href: "#publications" },

@@ -14,6 +14,10 @@ interface Project {
 }
 
 const PROJECT_HIGHLIGHTS: Record<number, { label: string; value: string }[]> = {
+  15: [
+    { label: "Services", value: "Next.js · .NET · FastAPI" },
+    { label: "Verdicts", value: "Rules over VLM perception" },
+  ],
   2: [
     { label: "Benchmarks", value: "TruthfulQA · HaluEval" },
     { label: "Grounding", value: "RAG + uncertainty scoring" },
@@ -239,7 +243,11 @@ for (let i = 0; i < nums.length; i++) {
                 rel="noopener noreferrer"
                 className="rounded bg-accent px-3 py-1.5 text-[11px] font-medium text-background"
               >
-                {project.demo.includes("youtu") ? "Watch Demo" : "Devpost"}
+                {project.demo.includes("youtu")
+                  ? "Watch Demo"
+                  : project.demo.includes("devpost")
+                    ? "Devpost"
+                    : "Live App"}
               </a>
             )}
             <a

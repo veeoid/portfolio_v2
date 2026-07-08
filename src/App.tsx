@@ -7,6 +7,7 @@ import Publications from "./components/Publications";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Timeline from "./components/Timeline";
+import LiveShowcase from "./components/LiveShowcase";
 import Cursor from "./components/Cursor";
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
         <Hero />
         <div>
           <Timeline />
+          <LiveShowcase />
           <Projects />
           <Skills />
           <Publications />
