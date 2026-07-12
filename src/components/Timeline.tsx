@@ -54,18 +54,6 @@ const events: Event[] = [
   },
   {
     id: 4,
-    role: "Software Developer Intern",
-    org: "Trivia Softwares",
-    period: "Feb 2019 – Jul 2019",
-    type: "Internship",
-    bullets: [
-      "Built a student database management system in Python and SQLite.",
-      "Developed an Android app in Java/XML to interface with the backend and sync data in real time.",
-    ],
-    category: "experience",
-  },
-  {
-    id: 5,
     role: "MS Computer Science",
     org: "Rochester Institute of Technology",
     period: "Aug 2022 – Dec 2025",
@@ -76,7 +64,7 @@ const events: Event[] = [
     category: "education",
   },
   {
-    id: 6,
+    id: 5,
     role: "BE Information Technology",
     org: "University of Mumbai",
     period: "Jul 2016 – Oct 2020",
