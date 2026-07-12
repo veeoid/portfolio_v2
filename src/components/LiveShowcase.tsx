@@ -5,7 +5,7 @@ const LIVE_PRODUCTS = [
     name: "ClaimVerifier",
     tagline: "AI-assisted damage claim verification",
     description:
-      "Submit a claim with photos — a vision-language model inspects the evidence, a deterministic rule engine issues the verdict, and results land on a live dashboard. Three services working together: a Next.js frontend, an ASP.NET Core API on PostgreSQL, and a FastAPI analysis pipeline.",
+      "Submit a claim with photos, a vision-language model inspects the evidence, a deterministic rule engine issues the verdict, and results land on a live dashboard. Three services working together: a Next.js frontend, an ASP.NET Core API on PostgreSQL, and a FastAPI analysis pipeline.",
     url: "https://claim-verifier-one.vercel.app",
     repo: "https://github.com/veeoid/claim-verifier",
     image: "/images/project-claim-verifier.png",
@@ -36,7 +36,7 @@ export default function LiveShowcase() {
   return (
     <section id="live" className="relative overflow-hidden bg-background py-24 text-foreground">
       <div
-        className="pointer-events-none absolute -right-32 top-1/4 h-[440px] w-[440px] rounded-full opacity-[0.09] blur-3xl animate-blob-drift"
+        className="animate-blob-drift pointer-events-none absolute -right-32 top-1/4 h-[440px] w-[440px] rounded-full opacity-[0.09] blur-3xl"
         style={{ background: "radial-gradient(circle, var(--aur-amber) 0%, transparent 60%)" }}
       />
 
@@ -71,7 +71,7 @@ export default function LiveShowcase() {
                 </span>
               </div>
 
-              <h3 className="font-display mb-2 text-3xl font-bold text-foreground">
+              <h3 className="mb-2 font-display text-3xl font-bold text-foreground">
                 {product.name}
               </h3>
               <p className="mb-4 text-sm font-medium text-accent">{product.tagline}</p>
@@ -90,7 +90,7 @@ export default function LiveShowcase() {
                   href={product.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-background shadow-md shadow-accent/20 transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-accent/25"
+                  className="shadow-accent/20 hover:shadow-accent/25 rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-background shadow-md transition-all hover:-translate-y-px hover:shadow-lg"
                 >
                   Open Live App ↗
                 </a>
@@ -113,11 +113,11 @@ export default function LiveShowcase() {
               className="group block overflow-hidden rounded-[1.25rem] border border-border bg-card shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/15"
             >
               {/* Chrome bar */}
-              <div className="flex items-center gap-1.5 border-b border-border/60 px-4 py-2.5">
+              <div className="border-border/60 flex items-center gap-1.5 border-b px-4 py-2.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--aur-rose)]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--aur-amber)]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--aur-lavender)]" />
-                <span className="text-dim ml-3 flex-1 truncate rounded-md border border-border/60 bg-background px-3 py-1 text-center font-mono text-[10px]">
+                <span className="border-border/60 ml-3 flex-1 truncate rounded-md border bg-background px-3 py-1 text-center font-mono text-[10px] text-dim">
                   {product.url.replace("https://", "")}
                 </span>
               </div>
