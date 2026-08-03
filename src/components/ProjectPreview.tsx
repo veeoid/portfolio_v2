@@ -18,6 +18,7 @@ const PROJECT_HIGHLIGHTS: Record<number, { label: string; value: string }[]> = {
     { label: "Services", value: "Next.js · .NET · FastAPI" },
     { label: "Verdicts", value: "Rules over VLM perception" },
   ],
+  16: [{ label: "Services", value: "Next.js · Flask · LangChain · TypeScript · Geoapify" }],
   2: [
     { label: "Benchmarks", value: "TruthfulQA · HaluEval" },
     { label: "Grounding", value: "RAG + uncertainty scoring" },
@@ -94,7 +95,7 @@ for (let i = 0; i < nums.length; i++) {
             transition={{ delay: i * 0.1 }}
             className="flex items-center gap-2 rounded bg-background px-2.5 py-1.5"
           >
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/15 text-[9px] font-medium text-accent">
+            <span className="bg-accent/15 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-medium text-accent">
               {i + 1}
             </span>
             <span className="text-[11px] text-foreground">{s}</span>
@@ -135,7 +136,10 @@ for (let i = 0; i < nums.length; i++) {
       </div>
       <div className="mt-2 grid grid-cols-3 gap-1.5">
         {["SYN", "SYN·ACK", "ACK"].map((s) => (
-          <div key={s} className="rounded bg-background px-1.5 py-1 text-center text-[9px] text-muted">
+          <div
+            key={s}
+            className="rounded bg-background px-1.5 py-1 text-center text-[9px] text-muted"
+          >
             {s}
           </div>
         ))}
@@ -187,9 +191,11 @@ for (let i = 0; i < nums.length; i++) {
           {/* Title + categories */}
           <div className="border-b border-border-subtle pb-3">
             <div className="flex items-start justify-between gap-2">
-              <h3 className="text-sm font-semibold leading-snug text-foreground">{project.title}</h3>
+              <h3 className="text-sm font-semibold leading-snug text-foreground">
+                {project.title}
+              </h3>
               {project.award && (
-                <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-accent">
+                <span className="bg-accent/15 shrink-0 rounded-full px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-accent">
                   {project.award}
                 </span>
               )}

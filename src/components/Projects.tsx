@@ -30,6 +30,17 @@ const allProjects: Project[] = [
     award: "Live",
   },
   {
+    id: 16,
+    title: "WhatNow: Contextual Q&A",
+    categories: ["web", "ai"],
+    description:
+      "Web application that provides contextual question answering using a combination of Next.js frontend, Flask backend, LangChain for LLM orchestration, and TypeScript for type safety.",
+    link: "https://github.com/veeoid/what-now",
+    technologies: ["Next.js", "Flask", "LangChain", "TypeScript", "Geoapify"],
+    image: "/images/project-whatnow.png",
+    demo: "https://heywhatnow.vercel.app",
+  },
+  {
     id: 1,
     title: "Custom TCP Protocol From Scratch",
     categories: ["networking"],
