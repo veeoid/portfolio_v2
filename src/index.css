@@ -209,6 +209,15 @@ textarea:focus {
 /* Custom cursor — hides native on desktop */
 .custom-cursor, .custom-cursor * { cursor: none !important; }
 
+/* Hide scrollbar on snap carousels (still scrollable / swipeable) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Film grain — fine paper texture over the whole page */
 .grain {
   position: fixed;
