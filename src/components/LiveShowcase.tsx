@@ -11,6 +11,16 @@ const LIVE_PRODUCTS = [
     image: "/images/project-claim-verifier.png",
     stack: ["Next.js", "ASP.NET Core", "FastAPI", "PostgreSQL", "Gemini VLM"],
   },
+  {
+    name: "WhatNow",
+    tagline: "Real itineraries for the next few hours",
+    description:
+      "Pick your time, mood, budget, and transport, and get five ready-to-go itineraries built from real venues near you. A Python scoring pass ranks nearby places by distance and fit, an LLM agent composes them into time-blocked plans, and every stop is verified against live place data so nothing is invented. A Next.js frontend on Vercel proxies to a Flask service on Render.",
+    url: "https://what-now-hazel.vercel.app",
+    repo: "https://github.com/veeoid/WhatNow",
+    image: "/images/project-whatnow.png",
+    stack: ["Next.js", "Flask", "LangChain", "Groq", "Geoapify"],
+  },
 ];
 
 export default function LiveShowcase() {
