@@ -19,7 +19,7 @@ const LIVE_PRODUCTS = [
     url: "https://heywhatnow.vercel.app",
     repo: "https://github.com/veeoid/whatnow",
     image: "/images/project-whatnow.png",
-    stack: ["Next.js", "Flask", "LangChain", "Groq", "Geoapify"],
+    stack: ["Next.js", "Flask", "LangChain", "TypeScript", "Geoapify"],
   },
 ];
 
