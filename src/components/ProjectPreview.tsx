@@ -18,7 +18,10 @@ const PROJECT_HIGHLIGHTS: Record<number, { label: string; value: string }[]> = {
     { label: "Services", value: "Next.js · .NET · FastAPI" },
     { label: "Verdicts", value: "Rules over VLM perception" },
   ],
-  16: [{ label: "Services", value: "Next.js · Flask · LangChain · TypeScript · Geoapify" }],
+  16: [
+    { label: "Services", value: "Next.js · Flask · LangChain · TypeScript · Geoapify" },
+    { label: "Suggestions", value: "Contextual Q&A" },
+  ],
   2: [
     { label: "Benchmarks", value: "TruthfulQA · HaluEval" },
     { label: "Grounding", value: "RAG + uncertainty scoring" },

@@ -4,7 +4,7 @@ import ProjectPreview from "./ProjectPreview";
 interface Project {
   id: number;
   title: string;
-  categories: ("web" | "ai" | "backend" | "cloud" | "networking")[];
+  categories: ("fullstack" | "ai" | "backend" | "cloud" | "networking")[];
   description: string;
   link: string;
   technologies: string[];
@@ -14,13 +14,13 @@ interface Project {
   award?: string;
 }
 
-type Tab = "all" | "web" | "ai" | "backend" | "cloud" | "networking";
+type Tab = "all" | "fullstack" | "ai" | "backend" | "cloud" | "networking";
 
 const allProjects: Project[] = [
   {
     id: 15,
     title: "Claim Verifier: AI Damage Claims",
-    categories: ["ai", "web", "backend"],
+    categories: ["ai", "fullstack"],
     description:
       "AI-assisted damage claim verification, a vision-language model inspects claim photos, then a deterministic rule layer turns that perception into a verdict (supported, contradicted, or insufficient evidence), surfaced on a dashboard.",
     link: "https://github.com/veeoid/claim-verifier",
@@ -32,7 +32,7 @@ const allProjects: Project[] = [
   {
     id: 16,
     title: "WhatNow: Contextual Q&A",
-    categories: ["web", "ai"],
+    categories: ["fullstack", "ai"],
     description:
       "Web application that provides contextual question answering using a combination of Next.js frontend, Flask backend, LangChain for LLM orchestration, and TypeScript for type safety.",
     link: "https://github.com/veeoid/what-now",
@@ -55,7 +55,7 @@ const allProjects: Project[] = [
   {
     id: 2,
     title: "Hallucination Detection in LLMs",
-    categories: ["ai"],
+    categories: ["ai", "backend"],
     description:
       "Evaluation and mitigation pipeline for detecting LLM hallucinations using structured benchmarks, retrieval-based grounding, and uncertainty scoring.",
     link: "https://github.com/veeoid/hallucinations_detect_mitigate",
@@ -65,7 +65,7 @@ const allProjects: Project[] = [
   {
     id: 3,
     title: "CloudMart eCommerce + AI",
-    categories: ["web", "backend", "ai", "cloud"],
+    categories: ["fullstack", "backend", "ai", "cloud"],
     description:
       "E-commerce platform integrating AI services for product recommendations, customer support, and sentiment analysis across AWS, GCP, and Azure.",
     link: "https://github.com/veeoid/cloudmart",
@@ -97,7 +97,7 @@ const allProjects: Project[] = [
   {
     id: 6,
     title: "Memoir: Blog Platform",
-    categories: ["web", "backend"],
+    categories: ["fullstack", "backend"],
     description:
       "Full-stack blog platform with authentication, content management, image optimization, and a clean reading experience.",
     link: "https://github.com/veeoid/memoir",
@@ -127,7 +127,7 @@ const allProjects: Project[] = [
   {
     id: 9,
     title: "CodeCue: AI LeetCode Assistant",
-    categories: ["web", "ai"],
+    categories: ["fullstack", "ai"],
     description:
       "Chrome extension that provides instant AI-driven explanations and structured hints for LeetCode problems without spoiling the solution.",
     link: "https://github.com/veeoid/Code-Cue",
@@ -148,7 +148,7 @@ const allProjects: Project[] = [
   {
     id: 11,
     title: "TechTonic: Business Management",
-    categories: ["web", "backend"],
+    categories: ["fullstack", "backend"],
     description:
       "Full-stack business management system with customer management, inventory tracking, and analytics dashboards.",
     link: "https://github.com/veeoid/TechTonic",
@@ -158,7 +158,7 @@ const allProjects: Project[] = [
   {
     id: 12,
     title: "MovieVault",
-    categories: ["web"],
+    categories: ["fullstack"],
     description:
       "Responsive React movie explorer powered by TMDB API — search, browse trending films, and save favorites locally.",
     link: "https://github.com/veeoid/movie-app",
@@ -189,7 +189,7 @@ const allProjects: Project[] = [
 
 const TABS: { label: string; value: Tab }[] = [
   { label: "All", value: "all" },
-  { label: "Web", value: "web" },
+  { label: "Fullstack", value: "fullstack" },
   { label: "AI & ML", value: "ai" },
   { label: "Backend", value: "backend" },
   { label: "Cloud", value: "cloud" },
@@ -325,7 +325,10 @@ function ProjectCard({ project }: { project: Project }) {
       </a>
 
       <div className="pointer-events-none md:pointer-events-auto">
-        <ProjectPreview project={project} isVisible={hovered} />
+        <ProjectPreview
+          project={project as Parameters<typeof ProjectPreview>[0]["project"]}
+          isVisible={hovered}
+        />
       </div>
     </div>
   );
