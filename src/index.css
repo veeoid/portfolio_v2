@@ -31,8 +31,8 @@
   --border: #272320;
   --border-subtle: #1e1c18;
   --text: #f0ebe1;
-  --text-muted: #5a5550;
-  --text-dim: #3d3a35;
+  --text-muted: #aaa39c;
+  --text-dim: #8a8176;
   --accent: #d4973a;
   --accent-dim: #a06825;
   /* Aliases for Tailwind theme tokens */

@@ -18,9 +18,9 @@ const events: Event[] = [
     period: "Sept 2025 – Present",
     type: "Full-time",
     bullets: [
-      "Own data pipelines ingesting from 10+ upstream systems into Snowflake, standardizing the data layer behind backend services and reporting workflows.",
-      "Built an event-driven cache invalidation system with Snowflake change streams, Azure Functions, and Redis, cutting data freshness lag from hours to under a minute.",
-      "Reduced query execution time by 30% by profiling hot workloads, restructuring joins, and precomputing aggregations across large analytical datasets.",
+      "Design and maintain data pipelines from 10+ upstream systems, keeping backend services and reporting workflows supplied with reliable data.",
+      "Built event-driven invalidation workflows with Azure Functions and Redis, cutting data freshness lag from hours to under a minute.",
+      "Reduced analytical query execution time by 30% through SQL transformation and join optimization.",
       "Built a Python validation suite covering business logic checks, null validation, outlier detection, and explosive value guards across production pipelines.",
       "Run observability and anomaly monitoring across production pipelines, catching data quality failures before they reach downstream consumers.",
     ],
@@ -33,7 +33,7 @@ const events: Event[] = [
     period: "Aug 2024 – Aug 2025",
     type: "Co-op",
     bullets: [
-      "Processed 50M+ records daily through Snowflake ETL workflows powering large-scale analytical datasets.",
+      "Processed large datasets daily through batch workflows supporting backend services and application features.",
       "Reduced pipeline execution time by 25% by profiling and eliminating inefficient query patterns.",
       "Recovered a broken recommendation pipeline by tracing failures across ingestion, transformation, and inference stages.",
       "Developed .NET REST APIs in C# to expose processed data to Angular frontend applications.",
@@ -77,7 +77,8 @@ const events: Event[] = [
 ];
 
 function TimelineCard({ event, isLast, tone }: { event: Event; isLast: boolean; tone: string }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(event.id === 1);
+  const detailsId = `timeline-details-${event.id}`;
 
   return (
     <div className="relative flex gap-5">
@@ -96,7 +97,7 @@ function TimelineCard({ event, isLast, tone }: { event: Event; isLast: boolean; 
 
       {/* Card */}
       <div
-        className={`mb-6 flex-1 cursor-pointer rounded-xl border transition-all duration-200 ${
+        className={`mb-6 flex-1 rounded-xl border transition-all duration-200 ${
           open ? "bg-surface" : "border-border bg-card hover:border-border-subtle"
         }`}
         style={
@@ -104,21 +105,26 @@ function TimelineCard({ event, isLast, tone }: { event: Event; isLast: boolean; 
             ? { borderColor: `color-mix(in srgb, var(--aur-${tone}) 40%, transparent)` }
             : undefined
         }
-        onClick={() => setOpen(!open)}
       >
-        <div className="flex items-start justify-between p-4">
-          <div>
-            <div className="mb-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-              <h4 className="text-sm font-semibold text-foreground">{event.role}</h4>
+        <button
+          type="button"
+          className="flex w-full items-start justify-between p-4 text-left"
+          onClick={() => setOpen((current) => !current)}
+          aria-expanded={open}
+          aria-controls={detailsId}
+        >
+          <span className="block">
+            <span className="mb-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <span className="text-sm font-semibold text-foreground">{event.role}</span>
               <span className="text-xs text-accent">@ {event.org}</span>
-            </div>
-            <div className="flex items-center gap-3">
+            </span>
+            <span className="flex items-center gap-3">
               <span className="text-[11px] text-muted">{event.period}</span>
               <span className="rounded-sm bg-surface px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
                 {event.type}
               </span>
-            </div>
-          </div>
+            </span>
+          </span>
           <svg
             className={`mt-0.5 h-4 w-4 flex-shrink-0 text-muted transition-transform duration-200 ${
               open ? "rotate-180" : ""
@@ -130,20 +136,18 @@ function TimelineCard({ event, isLast, tone }: { event: Event; isLast: boolean; 
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
           </svg>
-        </div>
+        </button>
 
-        {open && (
-          <div className="border-t border-border px-4 py-4">
-            <ul className="space-y-2">
-              {event.bullets.map((b, i) => (
-                <li key={i} className="flex gap-3 text-xs leading-relaxed text-muted">
-                  <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-accent" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div id={detailsId} hidden={!open} className="border-t border-border px-4 py-4">
+          <ul className="space-y-2">
+            {event.bullets.map((b, i) => (
+              <li key={i} className="flex gap-3 text-xs leading-relaxed text-muted">
+                <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-accent" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

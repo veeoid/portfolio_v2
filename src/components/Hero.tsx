@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import HeroScene from "./HeroScene";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
-const ROLES = ["Software Engineer", "Backend Architect", "Cloud Engineer", "Systems Builder"];
+const HeroScene = lazy(() => import("./HeroScene"));
+
+const ROLES = ["Software Engineer", "Backend Engineer", "Data Engineer", "Cloud Engineer"];
 
 function useTypewriter(words: string[]) {
   const [idx, setIdx] = useState(0);
@@ -63,6 +64,7 @@ function useMagnetic(strength = 0.38) {
 
 export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showScene, setShowScene] = useState(false);
   const role = useTypewriter(ROLES);
   const cta1 = useMagnetic();
   const cta2 = useMagnetic();
@@ -70,6 +72,14 @@ export default function Hero() {
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const updateScene = () => setShowScene(desktop.matches);
+    updateScene();
+    desktop.addEventListener("change", updateScene);
+    return () => desktop.removeEventListener("change", updateScene);
   }, []);
 
   return (
@@ -98,7 +108,11 @@ export default function Hero() {
       />
 
       {/* 3D retro computer */}
-      <HeroScene />
+      {showScene && (
+        <Suspense fallback={null}>
+          <HeroScene />
+        </Suspense>
+      )}
 
       <div
         className={`relative z-10 mx-auto w-full max-w-6xl px-6 py-20 transition-all duration-1000 md:px-12 ${
@@ -112,33 +126,46 @@ export default function Hero() {
             <span className="ml-0.5 inline-block h-3 w-px animate-blink bg-accent align-middle" />
           </p>
 
-          <h1 className="font-display aurora-text mb-0 pb-1 text-6xl font-bold leading-none tracking-tight md:text-8xl lg:text-9xl">
-            Vismay
-          </h1>
           <h1 className="font-display aurora-text mb-8 pb-2 text-6xl font-bold leading-none tracking-tight md:text-8xl lg:text-9xl">
-            Chaudhari
+            Vismay <span className="block">Chaudhari</span>
           </h1>
 
           <div className="mb-8 h-px w-12 bg-accent" />
 
           <p className="mb-4 max-w-sm text-sm uppercase tracking-widest text-muted">
-            Backend · Data Engineering · Cloud
+            Backend Engineering · Data Systems · Cloud
           </p>
 
-          <p className="mb-10 max-w-[460px] text-base leading-relaxed text-muted md:text-lg">
-            I build backend systems and data infrastructure that hold up under real load. My focus
-            is on reliability and designing systems that stay clean as they grow.
+          <p className="mb-8 max-w-[520px] text-base leading-relaxed text-muted md:text-lg">
+            I’m a software engineer at Ecolab building reliable backend services and data
+            pipelines. I’ve reduced data freshness lag from hours to under a minute and made
+            analytical queries 30% faster.
           </p>
+
+          <dl className="mb-10 grid max-w-[520px] grid-cols-3 gap-4 border-t border-border pt-5">
+            <div>
+              <dt className="text-xs leading-snug text-muted">Upstream systems</dt>
+              <dd className="font-display text-xl font-semibold text-foreground md:text-2xl">10+</dd>
+            </div>
+            <div>
+              <dt className="text-xs leading-snug text-muted">Data freshness</dt>
+              <dd className="font-display text-xl font-semibold text-foreground md:text-2xl">&lt;1 min</dd>
+            </div>
+            <div>
+              <dt className="text-xs leading-snug text-muted">Faster queries</dt>
+              <dd className="font-display text-xl font-semibold text-foreground md:text-2xl">30%</dd>
+            </div>
+          </dl>
 
           {/* Magnetic CTAs */}
           <div className="flex flex-wrap items-center gap-3">
             <a
               ref={cta1}
-              href="#projects"
+              href="#timeline"
               className="rounded-sm bg-accent px-6 py-2.5 text-sm font-semibold text-background transition-shadow duration-200 hover:shadow-lg hover:shadow-accent/25"
               style={{ transition: "box-shadow 0.2s" }}
             >
-              Selected Work
+              View Experience
             </a>
             <a
               ref={cta2}

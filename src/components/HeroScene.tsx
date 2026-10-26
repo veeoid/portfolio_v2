@@ -323,6 +323,10 @@ export default function HeroScene() {
   }, [theme]);
 
   return (
-    <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+    />
   );
 }
