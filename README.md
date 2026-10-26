@@ -32,6 +32,6 @@ The form posts to `/.netlify/functions/contact`. On Netlify, configure `SENDGRID
 
 ## Links
 
-- [Portfolio](https://portfolio-ca88.vercel.app/)
+- [Portfolio](https://vismay.vercel.app/)
 - [GitHub](https://github.com/veeoid)
 - [LinkedIn](https://www.linkedin.com/in/vismay-chaudhari/)

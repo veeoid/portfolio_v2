@@ -21,7 +21,7 @@ const allProjects: Project[] = [
     title: "Serverless Function Platform",
     categories: ["backend", "cloud"],
     description:
-      "Runs user-submitted Python functions as isolated Kubernetes jobs and reports CPU and memory use for each execution.",
+      "Prototype exploring function-submission APIs and Kubernetes job orchestration. Django endpoints manage submissions and job status, with CPU and memory measurements to inspect execution behavior.",
     link: "https://github.com/veeoid/Serverless-Function-Development-Platform.git",
     technologies: ["Python", "Django", "Kubernetes", "Docker", "REST APIs"],
     image: "/images/project-serverless.png",
@@ -31,9 +31,9 @@ const allProjects: Project[] = [
     title: "BugBlamer: CI Root Cause Detection",
     categories: ["ai", "backend", "cloud"],
     description:
-      "Correlates Git diffs with CI logs to find the most likely commit behind a failed build. A FastAPI service handles GitLab webhooks and runs on GCP Cloud Run.",
+      "CI debugging assistant that combines GitLab commit diffs and failed-job logs with LLM analysis to suggest likely causes for investigation. A FastAPI service exposes the workflow and runs in a Docker container on Cloud Run.",
     link: "https://github.com/veeoid/bugblamer",
-    technologies: ["FastAPI", "Groq API", "GitLab API", "GCP Cloud Run", "Docker"],
+    technologies: ["Python", "FastAPI", "GitLab API", "GCP Cloud Run", "Docker"],
     image: "/images/project-bugblamer.png",
     demo: "https://devpost.com/software/bugblamer",
   },
@@ -42,20 +42,20 @@ const allProjects: Project[] = [
     title: "CodeCue: AI LeetCode Assistant",
     categories: ["fullstack", "ai"],
     description:
-      "Chrome extension that adds structured LLM-powered hints inside LeetCode, backed by a React interface and Node.js API.",
+      "Chrome extension that provides instant AI-driven explanations and structured hints for LeetCode problems without spoiling the solution.",
     link: "https://github.com/veeoid/Code-Cue",
-    technologies: ["React", "TypeScript", "Node.js", "Express", "Groq API"],
+    technologies: ["React", "TypeScript", "Node.js", "Express"],
     image: "/images/project-codecue.png",
     demo: "https://youtu.be/NGHlcNSlkfw",
   },
   {
     id: 5,
-    title: "Valorant AI Chatbot",
+    title: "Valorant RAG Assistant (Team Project)",
     categories: ["ai", "cloud"],
     description:
-      "RAG-based strategy assistant that searches 5,000+ match reports with OpenSearch and uses AWS Bedrock to generate context-aware suggestions.",
+      "Co-developed a Streamlit assistant using Amazon Bedrock Knowledge Bases to retrieve game context from S3 data. Prompts define team-composition constraints, player roles and supporting reasoning for generated recommendations.",
     link: "https://github.com/Nidhzzz/vct_hackathon",
-    technologies: ["AWS Bedrock", "OpenSearch", "S3", "Python", "Streamlit"],
+    technologies: ["Amazon Bedrock", "S3", "Python", "Streamlit"],
     image: "/images/project-valorant.png",
     demo: "https://youtu.be/OUfsfUHq2Kk",
   },
@@ -64,7 +64,7 @@ const allProjects: Project[] = [
     title: "Custom TCP Protocol From Scratch",
     categories: ["networking"],
     description:
-      "Binary application-level protocol built directly on raw TCP — message framing, stream-safe parsing, state machine enforcement, and structured error handling. No HTTP, no protocol libraries.",
+      "Binary protocol built on TCP sockets with length-prefixed framing, connection-state handling and structured errors. A buffered parser retains incomplete frames and processes multiple messages arriving in one chunk.",
     link: "https://github.com/veeoid/CustomTCP-Protocol",
     technologies: ["Node.js", "TCP Sockets", "Binary Protocol", "State Machines"],
     image: "/images/project-custom-tcp-protocol.png",
@@ -76,9 +76,9 @@ const allProjects: Project[] = [
     title: "Hallucination Detection in LLMs",
     categories: ["ai", "backend"],
     description:
-      "Evaluation and mitigation pipeline for detecting LLM hallucinations using structured benchmarks, retrieval-based grounding, and uncertainty scoring.",
+      "LLM evaluation pipeline using sentence embeddings and agglomerative clustering to score semantic uncertainty. Adds retrieval-grounded revisions and citation-or-abstention checks, with precision, recall, F1 and DeBERTa-based reference-consistency evaluation.",
     link: "https://github.com/veeoid/hallucinations_detect_mitigate",
-    technologies: ["Python", "LLaMA", "Sentence Transformers", "RAG"],
+    technologies: ["Python", "Sentence Transformers", "scikit-learn", "DeBERTa"],
     image: "/images/project-hallucinations.png",
   },
   {
@@ -86,9 +86,9 @@ const allProjects: Project[] = [
     title: "CloudMart eCommerce + AI",
     categories: ["fullstack", "backend", "ai", "cloud"],
     description:
-      "E-commerce platform integrating AI services for product recommendations, customer support, and sentiment analysis across AWS, GCP, and Azure.",
+      "Cloud engineering project combining a React and Node.js storefront with container deployment on EKS, Terraform infrastructure, DynamoDB and Lambda-based data flows, and AI service integrations.",
     link: "https://github.com/veeoid/cloudmart",
-    technologies: ["AWS", "GCP", "Azure", "Docker", "Kubernetes", "React", "Node.js"],
+    technologies: ["React", "Node.js", "AWS EKS", "DynamoDB", "Docker", "Terraform"],
     image: "/images/project-cloudmart.png",
   },
   {
@@ -96,9 +96,9 @@ const allProjects: Project[] = [
     title: "Claim Verifier: AI Damage Claims",
     categories: ["ai", "fullstack"],
     description:
-      "AI-assisted damage claim verification, a vision-language model inspects claim photos, then a deterministic rule layer turns that perception into a verdict (supported, contradicted, or insufficient evidence), surfaced on a dashboard.",
+      "Damage-claim application separating vision-model observations from deterministic claim decisions. An ASP.NET Core API saves submissions in PostgreSQL before FastAPI analysis, preserving claims and tracking analysis failures when inference is unavailable.",
     link: "https://github.com/veeoid/claim-verifier",
-    technologies: ["Next.js", "ASP.NET Core", "FastAPI", "PostgreSQL", "Gemini VLM", "Docker"],
+    technologies: ["Next.js", "ASP.NET Core", "FastAPI", "PostgreSQL", "Docker"],
     image: "/images/project-claim-verifier.png",
     demo: "https://claim-verifier-one.vercel.app",
     award: "Live",
@@ -108,7 +108,7 @@ const allProjects: Project[] = [
     title: "WhatNow: Local Itinerary Planner",
     categories: ["fullstack", "ai"],
     description:
-      "Builds time-blocked local itineraries from user preferences and real venue data, combining place scoring with LLM-generated plans.",
+      "Itinerary planner combining a Flask and LangChain agent with Geoapify place search. Typed tools retrieve nearby venues while Python logic checks time and cost constraints, turning a user's location, budget and preferences into suggested plans.",
     link: "https://github.com/veeoid/whatnow",
     technologies: ["Next.js", "Flask", "LangChain", "TypeScript", "Geoapify"],
     image: "/images/project-whatnow.png",
@@ -129,9 +129,9 @@ const allProjects: Project[] = [
     title: "URL Shortener",
     categories: ["backend", "cloud"],
     description:
-      "Backend service for generating, storing, and resolving short URLs with low-latency Redis caching, analytics, and collision-safe key generation.",
+      "Node.js and Express service for creating short links, storing URL mappings in MongoDB and redirecting requests to their original destinations.",
     link: "https://github.com/veeoid/URL-Shortner",
-    technologies: ["Node.js", "Express", "MongoDB", "Redis"],
+    technologies: ["Node.js", "Express", "MongoDB"],
     image: "/images/project-url-shortener.png",
   },
   {
@@ -139,7 +139,7 @@ const allProjects: Project[] = [
     title: "Sign Language Virtual Assistant",
     categories: ["ai"],
     description:
-      "System that enables deaf-mute users to interact with voice assistants using computer vision and deep learning gesture recognition.",
+      "Computer-vision prototype using TensorFlow transfer learning and OpenCV to classify hand gestures from a webcam, connecting recognized gestures to spoken commands for a digital assistant.",
     link: "https://github.com/veeoid/Sign_Language_Recognition_for_Digitial_Assistants",
     technologies: ["Python", "OpenCV", "TensorFlow", "Speech Recognition"],
     image: "/images/project-signlanguage.png",
@@ -179,9 +179,9 @@ const allProjects: Project[] = [
     title: "Discord Automation Bot",
     categories: ["backend"],
     description:
-      "Discord bot automating moderation, command handling, and real-time interactions using event-driven workflows.",
+      "Discord utility bot implementing slash commands and interactive responses with Node.js and Discord.js event handlers.",
     link: "https://github.com/veeoid/DiscordBot",
-    technologies: ["Node.js", "Discord.js", "Event Driven Systems"],
+    technologies: ["Node.js", "Discord.js"],
     image: "/images/project-discord-bot.png",
   },
 ];
