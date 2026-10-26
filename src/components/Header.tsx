@@ -64,10 +64,8 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full border-b border-border/10 backdrop-blur-xl transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/95 text-foreground shadow-sm shadow-black/5"
-          : "bg-background/80 py-4 text-foreground"
+      className={`fixed left-0 top-0 z-50 w-full border-b border-border bg-background text-foreground transition-all duration-200 ${
+        isScrolled ? "py-2" : "py-4"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
@@ -76,7 +74,7 @@ export default function Header() {
           href="/"
           className="font-display text-xl font-bold text-foreground transition-colors hover:text-accent"
         >
-          VC<span className="text-[color:var(--aur-rose)]">.</span>
+          VC.
         </a>
 
         {/* Desktop nav */}

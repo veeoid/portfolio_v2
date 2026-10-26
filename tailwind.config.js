@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["Fraunces", "Georgia", "serif"],
+        display: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       borderRadius: {

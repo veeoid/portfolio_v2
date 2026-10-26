@@ -15,28 +15,27 @@ const events: Event[] = [
     id: 1,
     role: "Software Engineer",
     org: "Ecolab",
-    period: "Sept 2025 – Present",
+    period: "Sep 2025 – Present",
     type: "Full-time",
     bullets: [
-      "Design and maintain data pipelines from 10+ upstream systems, keeping backend services and reporting workflows supplied with reliable data.",
-      "Built event-driven invalidation workflows with Azure Functions and Redis, cutting data freshness lag from hours to under a minute.",
-      "Reduced analytical query execution time by 30% through SQL transformation and join optimization.",
-      "Built a Python validation suite covering business logic checks, null validation, outlier detection, and explosive value guards across production pipelines.",
-      "Run observability and anomaly monitoring across production pipelines, catching data quality failures before they reach downstream consumers.",
+      "Pricing application — Brought reviews for 2,500+ SKUs into one Python report, with tested purchase-history fallback rules.",
+      "Snowflake delivery — Replaced manual releases across three environments with Python and GitHub Actions, adding SQL checks, dependency ordering, and idempotent deployments.",
+      "Redis freshness — Invalidated affected cache keys within five minutes of Snowflake refreshes using an Azure Function that polls processing logs.",
+      "Internal dashboards — Extended ASP.NET Core APIs and Angular views for 4,000+ internal users, with product usage and customer value filters.",
     ],
     category: "experience",
   },
   {
     id: 2,
-    role: "Software Engineer Co-op",
+    role: "Software Engineering Co-op",
     org: "Ecolab",
     period: "Aug 2024 – Aug 2025",
     type: "Co-op",
     bullets: [
-      "Processed large datasets daily through batch workflows supporting backend services and application features.",
-      "Reduced pipeline execution time by 25% by profiling and eliminating inefficient query patterns.",
-      "Recovered a broken recommendation pipeline by tracing failures across ingestion, transformation, and inference stages.",
-      "Developed .NET REST APIs in C# to expose processed data to Angular frontend applications.",
+      "Recommendations — Built three strategies for 1,000+ products using Apriori, KMeans, and SVD.",
+      "Pricing checks — Built a Streamlit and Snowpark tool to catch missing records and changed values before promotion.",
+      "Query performance — Improved Snowflake partition pruning with clustering, SQL tuning, and object redesign for production APIs and dashboards.",
+      "Validation — Added pytest checks for business rules, nulls, schemas, and ingested data.",
     ],
     category: "experience",
   },
@@ -47,8 +46,8 @@ const events: Event[] = [
     period: "Oct 2020 – Jul 2022",
     type: "Full-time",
     bullets: [
-      "Developed .NET backend services for real-time trading systems using ActiveMQ, handling high-throughput messaging across distributed components.",
-      "Optimized SQL Server queries and resolved data inconsistencies to keep high-volume daily trade data pipelines stable for a financial services client.",
+      "Messaging migration — Verified trade processing and eligibility behavior during a TIBCO-to-ActiveMQ move.",
+      "Release checks — Replaced repeated manual regression checks with UFT, VBScript, and PowerShell scripts.",
     ],
     category: "experience",
   },
@@ -76,80 +75,49 @@ const events: Event[] = [
   },
 ];
 
-function TimelineCard({ event, isLast, tone }: { event: Event; isLast: boolean; tone: string }) {
+function TimelineCard({ event }: { event: Event }) {
   const [open, setOpen] = useState(event.id === 1);
   const detailsId = `timeline-details-${event.id}`;
 
   return (
-    <div className="relative flex gap-5">
-      {/* Connector */}
-      <div className="flex flex-col items-center">
-        <div
-          className="mt-1 h-3 w-3 flex-shrink-0 rounded-full border-2 transition-colors duration-200"
-          style={
-            open
-              ? { borderColor: `var(--aur-${tone})`, backgroundColor: `var(--aur-${tone})` }
-              : { borderColor: "var(--border)", backgroundColor: "var(--bg)" }
-          }
-        />
-        {!isLast && <div className="mt-1 w-px flex-1 bg-border-subtle" />}
-      </div>
-
-      {/* Card */}
-      <div
-        className={`mb-6 flex-1 rounded-xl border transition-all duration-200 ${
-          open ? "bg-surface" : "border-border bg-card hover:border-border-subtle"
-        }`}
-        style={
-          open
-            ? { borderColor: `color-mix(in srgb, var(--aur-${tone}) 40%, transparent)` }
-            : undefined
-        }
+    <article className="border-t border-border py-5">
+      <button
+        type="button"
+        className="flex w-full items-start justify-between gap-4 text-left"
+        onClick={() => setOpen((current) => !current)}
+        aria-expanded={open}
+        aria-controls={detailsId}
       >
-        <button
-          type="button"
-          className="flex w-full items-start justify-between p-4 text-left"
-          onClick={() => setOpen((current) => !current)}
-          aria-expanded={open}
-          aria-controls={detailsId}
-        >
-          <span className="block">
-            <span className="mb-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-              <span className="text-sm font-semibold text-foreground">{event.role}</span>
-              <span className="text-xs text-accent">@ {event.org}</span>
-            </span>
-            <span className="flex items-center gap-3">
-              <span className="text-[11px] text-muted">{event.period}</span>
-              <span className="rounded-sm bg-surface px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
-                {event.type}
-              </span>
-            </span>
-          </span>
-          <svg
-            className={`mt-0.5 h-4 w-4 flex-shrink-0 text-muted transition-transform duration-200 ${
-              open ? "rotate-180" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-
-        <div id={detailsId} hidden={!open} className="border-t border-border px-4 py-4">
-          <ul className="space-y-2">
-            {event.bullets.map((b, i) => (
-              <li key={i} className="flex gap-3 text-xs leading-relaxed text-muted">
-                <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-accent" />
-                {b}
+        <span className="block">
+          <span className="block text-base font-semibold text-foreground">{event.role}</span>
+          <span className="mt-1 block text-sm text-muted">{event.org} · {event.period}</span>
+        </span>
+        <span className="mt-1 text-xs font-medium text-accent" aria-hidden="true">
+          {open ? "−" : "+"}
+        </span>
+      </button>
+      <div id={detailsId} hidden={!open} className="pt-5">
+        <ul className="space-y-4">
+          {event.bullets.map((bullet) => {
+            const separator = bullet.indexOf(" — ");
+            return (
+              <li key={bullet} className="text-sm leading-relaxed text-muted">
+                {separator >= 0 ? (
+                  <>
+                    <strong className="font-semibold text-foreground">
+                      {bullet.slice(0, separator)}:
+                    </strong>{" "}
+                    {bullet.slice(separator + 3)}
+                  </>
+                ) : (
+                  bullet
+                )}
               </li>
-            ))}
-          </ul>
-        </div>
+            );
+          })}
+        </ul>
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -158,16 +126,12 @@ export default function Timeline() {
   const education = events.filter((e) => e.category === "education");
 
   return (
-    <section id="timeline" className="relative overflow-hidden bg-background py-24 text-foreground">
-      <div
-        className="animate-blob-drift pointer-events-none absolute -left-24 top-1/3 h-[400px] w-[400px] rounded-full opacity-[0.08] blur-3xl"
-        style={{ background: "radial-gradient(circle, var(--aur-lavender) 0%, transparent 60%)" }}
-      />
+    <section id="timeline" className="border-b border-border bg-background py-24 text-foreground">
       <div className="relative mx-auto max-w-6xl px-6 md:px-12">
         {/* Header */}
         <div className="mb-16">
           <p className="section-label mb-3">Background</p>
-          <h2 className="font-display text-4xl font-bold text-foreground">
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
             Experience & Education
           </h2>
         </div>
@@ -175,36 +139,20 @@ export default function Timeline() {
         <div className="grid gap-12 md:grid-cols-2 md:gap-16">
           {/* Experience */}
           <div>
-            <p className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted">
-              <span className="h-2 w-2 rounded-full bg-[color:var(--aur-rose)]" />
-              Experience
-            </p>
+            <p className="section-label mb-6">Experience</p>
             <div>
-              {experience.map((e, i) => (
-                <TimelineCard
-                  key={e.id}
-                  event={e}
-                  isLast={i === experience.length - 1}
-                  tone="rose"
-                />
+              {experience.map((event) => (
+                <TimelineCard key={event.id} event={event} />
               ))}
             </div>
           </div>
 
           {/* Education */}
           <div>
-            <p className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted">
-              <span className="h-2 w-2 rounded-full bg-[color:var(--aur-lavender)]" />
-              Education
-            </p>
+            <p className="section-label mb-6">Education</p>
             <div>
-              {education.map((e, i) => (
-                <TimelineCard
-                  key={e.id}
-                  event={e}
-                  isLast={i === education.length - 1}
-                  tone="lavender"
-                />
+              {education.map((event) => (
+                <TimelineCard key={event.id} event={event} />
               ))}
             </div>
           </div>

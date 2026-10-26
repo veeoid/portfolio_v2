@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 
 interface FormData {
   name: string;
@@ -16,28 +16,10 @@ interface FormErrors {
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
 export default function Contact() {
-  const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 },
-    );
-    const section = document.getElementById("contact");
-    if (section) observer.observe(section);
-    return () => {
-      if (section) observer.unobserve(section);
-    };
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -92,34 +74,18 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-background py-24 text-foreground">
-      <div
-        className="pointer-events-none absolute -bottom-24 -left-24 h-[400px] w-[400px] rounded-full opacity-[0.09] blur-3xl animate-blob-drift"
-        style={{ background: "radial-gradient(circle, var(--aur-rose) 0%, transparent 60%)" }}
-      />
-      <div
-        className="pointer-events-none absolute -right-24 top-0 h-[380px] w-[380px] rounded-full opacity-[0.08] blur-3xl animate-blob-drift"
-        style={{
-          background: "radial-gradient(circle, var(--aur-lavender) 0%, transparent 60%)",
-          animationDelay: "-9s",
-        }}
-      />
-      <div
-        className={`relative mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-        }`}
-      >
+    <section id="contact" className="border-t border-border bg-background py-24 text-foreground">
+      <div className="mx-auto max-w-6xl px-6 md:px-12">
         {/* Header */}
         <div className="mb-16">
           <p className="section-label mb-3">Contact</p>
-          <h2 className="font-display text-4xl font-bold text-foreground">Get In Touch</h2>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">Get in touch</h2>
         </div>
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
           {/* Left */}
           <div className="flex flex-col justify-start">
             <p className="mb-8 max-w-sm text-sm leading-relaxed text-muted">
-              Open to new opportunities, collaborations, or just a conversation about engineering.
-              Drop a message and I'll get back to you.
+              For roles, collaborations, or questions about my work, email me or use the form.
             </p>
 
             <div className="space-y-4">
@@ -170,7 +136,7 @@ export default function Contact() {
                 href="https://github.com/veeoid"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-border px-4 py-2 text-xs text-muted transition-all hover:border-[color:var(--aur-rose)] hover:text-[color:var(--aur-rose)]"
+                className="rounded-sm border border-border px-4 py-2 text-xs text-muted hover:border-accent hover:text-accent"
               >
                 GitHub ↗
               </a>
@@ -178,7 +144,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/vismay-chaudhari/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-border px-4 py-2 text-xs text-muted transition-all hover:border-[color:var(--aur-lavender)] hover:text-[color:var(--aur-lavender)]"
+                className="rounded-sm border border-border px-4 py-2 text-xs text-muted hover:border-accent hover:text-accent"
               >
                 LinkedIn ↗
               </a>
@@ -278,7 +244,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-lg bg-accent py-3 text-sm font-semibold text-background shadow-md shadow-accent/20 transition-all hover:-translate-y-px hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/25 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-sm bg-accent py-3 text-sm font-semibold text-background hover:bg-[color:var(--accent-dim)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isSubmitting ? "Sending…" : "Send Message"}
                 </button>

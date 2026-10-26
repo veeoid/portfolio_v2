@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 const publications = [
   {
     id: 1,
@@ -26,40 +24,17 @@ const publications = [
 ];
 
 export default function Publications() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.05 },
-    );
-    const section = document.getElementById("publications");
-    if (section) observer.observe(section);
-    return () => {
-      if (section) observer.unobserve(section);
-    };
-  }, []);
-
   return (
-    <section id="publications" className="bg-background py-24 text-foreground">
-      <div
-        className={`mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-        }`}
-      >
+    <section id="publications" className="border-t border-border bg-background py-24 text-foreground">
+      <div className="mx-auto max-w-6xl px-6 md:px-12">
         {/* Header */}
         <div className="mb-16">
           <p className="section-label mb-3">Research</p>
-          <h2 className="font-display text-4xl font-bold text-foreground">Publications</h2>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">Publications</h2>
         </div>
 
         <div className="space-y-px">
-          {publications.map((pub, i) => (
+          {publications.map((pub) => (
             <div key={pub.id} className="border-border-subtle group border-t py-10 last:border-b">
               <div className="flex flex-col gap-6 md:flex-row md:gap-12">
                 {/* Year */}
@@ -115,12 +90,6 @@ export default function Publications() {
                   </div>
                 </div>
 
-                {/* Number */}
-                <div className="hidden flex-shrink-0 md:block">
-                  <span className="font-display select-none text-5xl font-bold text-border transition-colors duration-300 group-hover:text-[color:var(--aur-rose)]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
               </div>
             </div>
           ))}

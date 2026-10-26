@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import ProjectPreview from "./ProjectPreview";
+import { useState } from "react";
 
 interface Project {
   id: number;
@@ -197,194 +196,92 @@ const TABS: { label: string; value: Tab }[] = [
 ];
 
 function ProjectCard({ project }: { project: Project }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [imgError, setImgError] = useState(false);
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    if (videoRef.current) videoRef.current.play().catch(() => void 0);
-  };
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  };
 
   return (
-    <div
-      className="relative transition-all duration-300 hover:-translate-y-1"
-      onMouseEnter={() => {
-        setHovered(true);
-        handleMouseEnter();
-      }}
-      onMouseLeave={() => {
-        setHovered(false);
-        handleMouseLeave();
-      }}
-    >
-      <a
-        href={project.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/15"
-      >
-        {/* Retro window chrome */}
-        <div className="border-border/60 flex items-center gap-1.5 border-b px-5 py-2.5">
-          <span className="h-2 w-2 rounded-full bg-[color:var(--aur-rose)]" />
-          <span className="h-2 w-2 rounded-full bg-[color:var(--aur-amber)]" />
-          <span className="h-2 w-2 rounded-full bg-[color:var(--aur-lavender)]" />
-          <span className="ml-2 truncate font-mono text-[10px] text-dim">
-            ~/{project.title.toLowerCase().split(":")[0].replace(/\s+/g, "-")}
-          </span>
-        </div>
-
-        {/* Thumbnail */}
-        <div className="border-border/20 relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border bg-card shadow-inner shadow-black/10">
-          {project.video ? (
-            <video
-              ref={videoRef}
-              src={project.video}
-              muted
-              loop
-              playsInline
-              poster={project.image}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          ) : project.image && !imgError ? (
-            <img
-              src={project.image}
-              alt={project.title}
-              onError={() => setImgError(true)}
-              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-          ) : (
-            /* Placeholder when no media */
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="grid grid-cols-3 gap-1 opacity-10">
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <div key={i} className="h-4 w-4 rounded-sm bg-surface" />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Hover overlay with arrow */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition duration-200 group-hover:bg-black/20 group-hover:opacity-100">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-lg shadow-black/20 backdrop-blur-sm">
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </div>
+    <article className="flex h-full flex-col overflow-hidden border border-border bg-card">
+      <div className="aspect-[16/10] overflow-hidden border-b border-border bg-surface">
+        {project.image && !imgError ? (
+          <img
+            src={project.image}
+            alt={`${project.title} interface`}
+            onError={() => setImgError(true)}
+            className="h-full w-full object-cover object-center"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-xs text-muted">
+            Preview unavailable
           </div>
-
-          {/* Video badge */}
-          {project.video && (
-            <div className="bg-background/80 absolute left-3 top-3 flex items-center gap-1 rounded px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-accent backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Video
-            </div>
-          )}
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-1 flex-col gap-3 p-5">
-          <div>
-            <h3 className="mb-2 text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-accent">
-              {project.title}
-            </h3>
-            <p className="line-clamp-3 text-sm leading-relaxed text-muted">{project.description}</p>
-          </div>
-          <div className="mt-auto flex flex-wrap gap-2">
-            {project.technologies.slice(0, 5).map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-border bg-background px-3 py-1 text-[11px] text-dim"
-              >
-                {tech}
-              </span>
-            ))}
-            {project.technologies.length > 5 && (
-              <span className="bg-surface/70 rounded-full px-3 py-1 text-[11px] text-dim">
-                +{project.technologies.length - 5}
-              </span>
-            )}
-          </div>
-        </div>
-      </a>
-
-      <div className="pointer-events-none md:pointer-events-auto">
-        <ProjectPreview
-          project={project as Parameters<typeof ProjectPreview>[0]["project"]}
-          isVisible={hovered}
-        />
+        )}
       </div>
-    </div>
+      <div className="flex flex-1 flex-col p-5">
+        {project.award && (
+          <p className="section-label mb-2">{project.award}</p>
+        )}
+        <h3 className="text-base font-semibold leading-snug text-foreground">
+          {project.title}
+        </h3>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
+          {project.description}
+        </p>
+        <p className="mt-5 text-xs leading-relaxed text-dim">
+          {project.technologies.join(" · ")}
+        </p>
+        <div className="mt-6 flex items-center gap-5 text-sm font-medium">
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-b border-border pb-1 text-foreground hover:border-accent hover:text-accent"
+          >
+            Source ↗
+          </a>
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-b border-accent pb-1 text-accent hover:text-foreground"
+            >
+              Demo ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }
 
 export default function Projects() {
-  const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("all");
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.05 },
-    );
-    const section = document.getElementById("projects");
-    if (section) observer.observe(section);
-    return () => {
-      if (section) observer.unobserve(section);
-    };
-  }, []);
+  const [showAll, setShowAll] = useState(false);
 
   const filtered =
     activeTab === "all" ? allProjects : allProjects.filter((p) => p.categories.includes(activeTab));
+  const visibleProjects = activeTab === "all" && !showAll ? filtered.slice(0, 6) : filtered;
 
   return (
     <section id="projects" className="relative overflow-hidden bg-background py-24 text-foreground">
-      <div
-        className="animate-blob-drift pointer-events-none absolute -top-24 right-[-6%] h-[420px] w-[420px] rounded-full opacity-[0.09] blur-3xl"
-        style={{ background: "radial-gradient(circle, var(--aur-rose) 0%, transparent 60%)" }}
-      />
-      <div
-        className={`mx-auto max-w-6xl px-6 transition-all duration-1000 md:px-12 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-        }`}
-      >
+      <div className="mx-auto max-w-6xl px-6 md:px-12">
         {/* Header */}
         <div className="mb-14">
           <p className="section-label mb-3">Work</p>
-          <h2 className="font-display text-4xl font-bold text-foreground">Selected Projects</h2>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">Selected projects</h2>
         </div>
 
         {/* Filter tabs */}
-        <div className="mb-10 flex flex-wrap gap-2">
+        <div className="mb-10 flex flex-wrap gap-x-6 gap-y-3 border-b border-border">
           {TABS.map((tab) => (
             <button
               key={tab.value}
+              type="button"
               onClick={() => setActiveTab(tab.value)}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
+              aria-pressed={activeTab === tab.value}
+              className={`border-b-2 pb-3 text-xs font-medium tracking-wide transition-colors ${
                 activeTab === tab.value
-                  ? "shadow-accent/25 bg-accent text-background shadow-md"
-                  : "border border-border text-muted hover:border-border-subtle hover:text-foreground"
+                  ? "border-accent text-accent"
+                  : "border-transparent text-muted hover:text-foreground"
               }`}
             >
               {tab.label}
@@ -394,10 +291,20 @@ export default function Projects() {
 
         {/* Grid */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project) => (
+          {visibleProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+
+        {activeTab === "all" && (
+          <button
+            type="button"
+            onClick={() => setShowAll((current) => !current)}
+            className="mt-8 border-b border-accent pb-1 text-sm font-medium text-accent hover:text-foreground"
+          >
+            {showAll ? "Show fewer projects" : `Show all ${allProjects.length} projects`}
+          </button>
+        )}
 
         {/* GitHub CTA */}
         <div className="mt-16 border-t border-border pt-10 text-center">
