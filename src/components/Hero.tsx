@@ -2,13 +2,16 @@ export default function Hero() {
   return (
     <section id="about" className="flex min-h-[78vh] items-center border-b border-border bg-background pt-24 text-foreground">
       <div className="mx-auto w-full max-w-6xl px-6 py-20 md:px-12">
-        <div className="max-w-3xl">
-          <p className="section-label mb-8">Software engineer</p>
-          <h1 className="font-display text-6xl font-semibold leading-[0.98] tracking-[-0.065em] text-foreground sm:text-7xl lg:text-8xl">
-            Vismay <span className="block">Chaudhari.</span>
+        <div className="max-w-4xl">
+          <p className="mb-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-base font-semibold text-foreground">
+            Vismay Chaudhari
+            <span className="text-sm font-normal text-muted">Software Engineer</span>
+          </p>
+          <h1 className="font-display text-5xl font-semibold leading-[1.05] tracking-[-0.055em] text-foreground sm:text-6xl lg:text-7xl">
+            I build backend and data services at Ecolab.
           </h1>
           <p className="mt-10 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
-            At Ecolab, I build ASP.NET Core APIs, Snowflake release tooling, and Python
+            I work across ASP.NET Core APIs, Snowflake CI/CD, Redis-backed services, and Python
             applications for pricing and reporting.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
@@ -28,7 +31,6 @@ export default function Hero() {
             </a>
           </div>
         </div>
-
       </div>
     </section>
   );
