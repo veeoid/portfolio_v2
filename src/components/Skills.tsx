@@ -1,31 +1,35 @@
 const categories = [
   {
     name: "Languages",
-    skills: ["Python", "TypeScript", "JavaScript", "C#", "Java", "SQL"],
+    skills: ["Python", "SQL", "C#", "TypeScript", "JavaScript"],
   },
   {
     name: "Backend",
-    skills: ["Node.js", "Django", "FastAPI", "Express", "Flask", ".NET Core", "GraphQL"],
+    skills: ["ASP.NET Core", "FastAPI", "Flask", "Django", "Node.js", "Express", "Entity Framework Core"],
   },
   {
     name: "Data Engineering",
-    skills: ["PySpark", "Snowflake", "Apache Kafka", "Great Expectations", "dbt", "Airflow"],
+    skills: ["Snowflake", "Snowpark", "Snowflake ML", "PySpark", "pandas", "NumPy"],
   },
   {
     name: "Databases",
-    skills: ["PostgreSQL", "MongoDB", "Redis", "MySQL", "DynamoDB", "Cassandra", "Firebase"],
+    skills: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQL Server", "DynamoDB"],
   },
   {
-    name: "Cloud & DevOps",
-    skills: ["AWS", "Azure", "GCP", "Docker", "Kubernetes", "Terraform", "CI/CD", "AppDynamics"],
+    name: "Cloud Platforms",
+    skills: ["Azure (FunctionApps, OIDC, Key Vaults, Blob)", "AWS (EC2, EKS, ECR, DynamoDB, Bedrock, Sagemaker)"],
   },
   {
     name: "AI & ML",
-    skills: ["PyTorch", "TensorFlow", "OpenCV", "scikit-learn", "LangChain", "LLMs", "RAG", "NLP"],
+    skills: ["PyTorch", "TensorFlow", "scikit-learn", "Sentence Transformers", "LangChain", "OpenCV"],
   },
   {
     name: "Frontend",
     skills: ["React", "Next.js", "Angular", "Tailwind CSS", "HTML5", "CSS3"],
+  },
+  {
+    name: "Tools & Testing",
+    skills: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "Git", "pytest", "Playwright", "AppDynamics", "Postman"],
   },
 ];
 

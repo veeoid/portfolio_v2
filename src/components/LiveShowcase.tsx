@@ -3,7 +3,7 @@ const liveProjects = [
     name: "ClaimVerifier",
     summary: "Damage claim review with a clear decision trail.",
     description:
-      "A vision-language model reads claim photos, then a rules layer turns the findings into a supported, contradicted, or insufficient-evidence verdict. Built with a Next.js frontend, ASP.NET Core API, and FastAPI analysis service.",
+      "A vision-language model reads claim photos, then deterministic rules determine the claim outcome. The ASP.NET Core API saves submissions in PostgreSQL before FastAPI analysis, preserving claims when inference fails. A Next.js frontend presents the results.",
     url: "https://claim-verifier-one.vercel.app",
     repo: "https://github.com/veeoid/claim-verifier",
     image: "/images/project-claim-verifier.png",
@@ -13,7 +13,7 @@ const liveProjects = [
     name: "WhatNow",
     summary: "Local plans built from real places.",
     description:
-      "Pick a time, budget, mood, and way to travel. A scoring step ranks nearby venues, and a Flask service builds time-blocked itineraries from verified place data.",
+      "Choose your location, time, budget and transport to get suggested plans using nearby venues. A Flask and LangChain agent calls Geoapify tools for place data, while Python logic checks time and cost constraints.",
     url: "https://heywhatnow.vercel.app",
     repo: "https://github.com/veeoid/whatnow",
     image: "/images/project-whatnow.png",

@@ -22,6 +22,8 @@ const events: Event[] = [
       "Snowflake release engineering — Replaced manual deployments across three environments with a Python engine and GitHub Actions, adding SQL validation, dependency ordering, hash-based idempotency, and OIDC.",
       "Cache consistency — Built selective Redis invalidation with a Python Azure Function that polls Snowflake processing logs, keeping API responses current within five minutes of refreshes.",
       "Production pricing system — Owned a Python application for 2,500+ SKUs globally, consolidating iterative reviews and implementing tested purchase-history fallback rules from requirements through production.",
+      "AI-assisted review — Integrated Claude risk summaries into pricing comparisons to flag missing claim types and unusual regional changes, keeping deterministic validation available when model calls fail.",
+      "Operational monitoring — Built Python Azure Functions that check failed ETL jobs and data quality every 15 minutes, sending structured AppDynamics events and email alerts with daily refresh reports.",
     ],
     category: "experience",
   },
@@ -46,7 +48,6 @@ const events: Event[] = [
     period: "Oct 2020 – Jul 2022",
     type: "Full-time",
     bullets: [
-      "Trading backend — Developed .NET services for real-time trading systems using ActiveMQ messaging across distributed components.",
       "Messaging migration — Verified trade processing, business rules, and eligibility decisions during a TIBCO-to-ActiveMQ transition.",
       "Regression automation — Replaced repeated manual release checks with reusable UFT, VBScript, and PowerShell scripts.",
     ],
